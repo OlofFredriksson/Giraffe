@@ -1,13 +1,19 @@
 <?php
 class Controller {
-	public $giraffe;
-	function __construct($uri) {
+	function __construct() {
 	}
 	function loadView($view,$data="") {
+		global $giraffe;
 		if(is_array($data) && count($data) > 0) {
 			extract($data, EXTR_PREFIX_SAME, "wddx");
 		}
-		require_once('site/themes/'.THEME.'/'.$view.'.php');
+		$theme = $giraffe->get_config();
+		require_once('site/themes/'.$theme["theme"].'/'.$view.'.php');
+	}
+	
+	function loadModel($model) {
+		require_once('model/'.$model.'.php');
+		$this->$model = new $model;
 	}
 
 }

@@ -16,6 +16,8 @@ require_once("controller.php");
 // The core class
 require_once("giraffe.php");
 
+// Function files
+require_once(PATH."/system/includes/general.php");
 
-define("THEME","default");
+
 ?>

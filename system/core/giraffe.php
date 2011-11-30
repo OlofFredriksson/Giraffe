@@ -4,15 +4,17 @@ class Giraffe {
 	private static $giraffe;
 	private $config;
 	private $db;
-	public $header;
 	private $theme;
+	
+	public $header;
 	public static $instance = NULL;
+	
 	private function __construct() {
 		// Create database connection
 		$this->db = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
 		if ($this->db->connect_errno) {
-			echo "Database connection failed, please check if your system/config.php is correct. Mysql Error: ".$this->db->connect_error;
-		exit();
+			echo "<h2>Database connection failed, please check if your system/config.php is correct. Mysql Error: ".$this->db->connect_error."</h2>";
+			exit();
 		}
 		
 		// Get site options from database
@@ -21,7 +23,7 @@ class Giraffe {
 			$this->config[$row->option] = $row->value;
 		}
 	}
-	
+
 	// Singleton
 	public static function instance() {
 		if(!isset(self::$instance)) {
@@ -55,7 +57,7 @@ class Giraffe {
 		}
 		
 	
-		// Loads our controller
+		// Loads the application
 		$application = new Application($array_uri);
 	}
 	
