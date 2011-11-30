@@ -1,3 +1,20 @@
 <?php
-	echo "Giraffe mvc"
+/*
+Before you could run this mvc at the first time, make your own config.php
+1: Copy system/config-sample.php to system/config.php
+2: Change to your database data
+
+ALL SITE SPECIFIC SETTINGS IS DONE IN 'config.php' and in database table 'options'
+*/
+
+define('PATH', dirname(__FILE__));
+
+// Load bootstrapper
+require_once(PATH ."/system/core/bootstrap.php");
+
+// Load the core class, Giraffe
+$giraffe = Giraffe::instance();
+
+$giraffe->run();
+
 ?>
