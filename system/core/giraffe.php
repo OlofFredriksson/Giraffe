@@ -32,7 +32,7 @@ class Giraffe {
 	public function run() {
 
 		//Take the initial PATH.
-		$path = ""; 
+		$path = $this->config["path"]; 
 		$url = $_SERVER['REQUEST_URI'];
 		$url = str_replace($path,"",$url);
 
