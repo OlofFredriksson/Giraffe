@@ -5,7 +5,7 @@ class Giraffe {
 	private $config;
 	private $db;
 	private $theme;
-	
+	private $array_uri;
 	public $header;
 	public static $instance = NULL;
 	
@@ -31,8 +31,10 @@ class Giraffe {
 		}
 		return self::$instance;
 	}
-	public function run() {
+	
 
+	
+	public function front_controller() {
 		//Take the initial PATH.
 		$path = $this->config["path"]; 
 		$url = $_SERVER['REQUEST_URI'];
@@ -44,23 +46,23 @@ class Giraffe {
 
 		//Here, we will define what is what in the URL
 		if(!empty($array_tmp_uri[0])) {
-			$array_uri['controller'] = $array_tmp_uri[0];
+			$this->array_uri['controller'] = $array_tmp_uri[0];
 		} else {
 			// Get default controller from database config
-			$array_uri['controller'] = $this->config['default_controller'];
+			$this->array_uri['controller'] = $this->config['default_controller'];
 		}
 		if(!empty($array_tmp_uri[1])) {
-			$array_uri['method']	= $array_tmp_uri[1];
+			$this->array_uri['method']	= $array_tmp_uri[1];
 		}
 		if(!empty($array_tmp_uri[2])) {
-			$array_uri['var'] = $array_tmp_uri[2];
+			$this->array_uri['var'] = $array_tmp_uri[2];
 		}
 		
-	
-		// Loads the application
-		$application = new Application($array_uri);
 	}
-	
+	public function template_engine() {
+		// Loads the application
+		$application = new Application($this->array_uri);
+	}
 	public function get_config() {
 		return $this->config;
 	}
