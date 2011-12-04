@@ -34,13 +34,15 @@ class Giraffe {
 	}
 
 	public function frontController() {
-		//Take the initial PATH.
-		$path = $this->config["url_prefix"];
+	
 		$uri = $_SERVER['REQUEST_URI'];
 
 		// Remove prefix from URI
-		$uri = str_replace($path,"",$uri);
+		$uri = str_replace($this->config["url_prefix"],"",$uri);
 
+		// Remove suffix from URI
+		$uri = str_replace($this->config["url_suffix"],"",$uri);
+		
 		# TBD - I DONT LIKE THIS
 		//creates an array from the rest of the URL
 		$array_uri = preg_split('[\\/]', $uri, -1, PREG_SPLIT_NO_EMPTY);
