@@ -13,10 +13,12 @@ class Application
 	}
 
 	public function loadController() {
-		$file = "site/controllers/".$this->uri['controller'].".php";
-		if(!file_exists($file)) die("Controller does not exist");
+		$controller_file = PATH."/site/controllers/".$this->uri['controller'].".php";
+		if(!file_exists($controller_file)) {
+			die("Controller does not exist");
+		}
 		
-		require_once($file);
+		require_once($controller_file);
 		$controller = new $this->uri["controller"]();
 		if(isset($this->uri['method']) && method_exists($controller, $this->uri['method'])) {
 			$controller->{$this->uri['method']}($this->uri['var']);
@@ -26,7 +28,7 @@ class Application
 			$controller->index();
 		}
 	}
-
+	// TBD
 	function loadModel($model) {
 		require_once('model/'.$model.'.php');
 		$this->$model = new $model;

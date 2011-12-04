@@ -20,13 +20,13 @@ $giraffe = Giraffe::instance();
 
 // ------------------------------ PHASE: Frontcontroller ------------------------------------------
 
-$giraffe->front_controller();
+$giraffe->frontController();
 
 
 
 // ------------------------------ PHASE: Template engine ------------------------------------------
 
-$giraffe->template_engine();
+$giraffe->templateEngine();
 
 
 ?>

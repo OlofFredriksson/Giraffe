@@ -7,7 +7,7 @@ class Controller {
 		if(is_array($data) && count($data) > 0) {
 			extract($data, EXTR_PREFIX_SAME, "wddx");
 		}
-		$theme = $giraffe->get_config();
+		$theme = $giraffe->getConfig();
 		require_once('site/themes/'.$theme["theme"].'/'.$view.'.php');
 	}
 	
