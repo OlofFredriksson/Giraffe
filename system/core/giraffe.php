@@ -38,15 +38,25 @@ class Giraffe {
 		$uri = $_SERVER['REQUEST_URI'];
 
 		// Remove prefix from URI
-		$uri = str_replace($this->config["url_prefix"],"",$uri);
-
+		$prefix_count = 0;
+		$uri = str_replace($this->config["url_prefix"],"",$uri,$prefix_count);
+		
 		// Remove suffix from URI
-		$uri = str_replace($this->config["url_suffix"],"",$uri);
+		$suffix_count = 0;
+		$uri = str_replace($this->config["url_suffix"],"",$uri,$suffix_count);
+		echo "uri: ".$uri."<br/>";
+		
+		
 		
 		# TBD - I DONT LIKE THIS
 		//creates an array from the rest of the URL
 		$array_uri = preg_split('[\\/]', $uri, -1, PREG_SPLIT_NO_EMPTY);
 		print_r($array_uri);
+		
+		// Remove duplicate content if prefix or suffix not is empty
+		if(count($array_uri) != 0 && ((!empty($this->config["url_suffix"]) && $suffix_count == 0) || (!empty($this->config["url_prefix"]) && $prefix_count == 0))) {
+			die("Wrong format on url"); // TBD - Change this to 404 page
+		}
 		
 		
 		//Here, we will define what is what in the URL
@@ -64,7 +74,6 @@ class Giraffe {
 		if(!empty($array_tmp_uri[2])) {
 			$this->array_uri['var'] = $array_uri[2];
 		}
-		
 	}
 	public function templateEngine() {
 		// Loads the application
