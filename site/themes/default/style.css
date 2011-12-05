@@ -1,0 +1,52 @@
+@import url(http://fonts.googleapis.com/css?family=Cabin+Condensed);
+body {
+	background-color: 	#E8E8E8;
+	padding: 40px;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 130%;
+}
+h1 {
+	font-size: 17px;
+	font-weight:bold;
+	margin:25px 0px;
+}
+h3 {
+	display:inline;
+}
+h3  a{
+	font-family: 'Cabin Condensed', sans-serif;
+	color: #FF3399;
+	font-size: 45px;
+	padding-bottom: 10px;
+	text-decoration: none;
+	
+}
+
+#subTitle {
+	display:inline;
+	font-size: 12px;
+	height: 15px;
+	padding-left: 10px;
+}
+
+#wrapper {
+	width: 840px;
+	margin: 0 auto;
+}
+
+#container {
+	border-radius: 20px; 
+	width: 800px;
+	padding: 20px;
+	background-color: #FFFFFF;
+	margin: 0 auto;
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+#footerContainer {
+	width: 400px;
+	text-align: center;
+	margin: 0 auto;
+}

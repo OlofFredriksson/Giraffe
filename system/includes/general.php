@@ -12,8 +12,24 @@ function get_siteInfo($value = "") {
 			$output = $config["uri_prefix"];
 		break;
 		
+		case "title":
+			$output = $config["title"];
+		break;
+		
+		case "url":
+			$output = $config["url"];
+		break;
+		
+		case "sub_title":
+			$output = $config["sub_title"];
+		break;
+		
 		case "stylesheet_url":
 			$output = $config["url"]."/site/themes/".$config["theme"]."/style.css";
+		break;
+		
+		case "theme_url":
+			$output = $config["url"]."/site/themes/".$config["theme"];
 		break;
 		
 		case "default_controller":
