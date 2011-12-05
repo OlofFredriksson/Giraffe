@@ -44,10 +44,8 @@ class Giraffe {
 		// Remove suffix from URI
 		$suffix_count = 0;
 		$uri = str_replace($this->config["url_suffix"],"",$uri,$suffix_count);
-		echo "uri: ".$uri."<br/>";
-		
-		
-		
+	
+	
 		# TBD - I DONT LIKE THIS
 		//creates an array from the rest of the URL
 		$array_uri = preg_split('[\\/]', $uri, -1, PREG_SPLIT_NO_EMPTY);
