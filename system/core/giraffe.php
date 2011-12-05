@@ -23,6 +23,9 @@ class Giraffe {
 		while ($row = $query->fetch_object()) {
 			$this->config[$row->option] = $row->value;
 		}
+		
+		// Get specific theme options
+		require_once(PATH."/site/themes/".$this->config["theme"]."/theme.php");
 	}
 
 	// Singleton
