@@ -8,8 +8,12 @@ function get_siteInfo($value = "") {
 			$output = $config["theme"];
 		break;
 		
-		case "prefix":
+		case "uri_prefix":
 			$output = $config["uri_prefix"];
+		break;
+		
+		case "default_controller":
+			$output = $config["default_controller"];
 		break;
 	}
 	

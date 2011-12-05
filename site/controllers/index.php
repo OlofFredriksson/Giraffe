@@ -5,7 +5,13 @@ class index extends Controller {
 	}
 
 	function index() {
-		$this->loadView('index',"heeej");
+		$data["text"] = "index construct";
+		$this->loadView('index',$data);
+	}
+	
+	function example() {
+		$data["text"] = "example controller";
+		$this->loadView('index',$data);
 	}
 }
 ?>

@@ -6,6 +6,7 @@ class Giraffe {
 	private $db;
 	private $theme;
 	private $array_uri;
+	private $uri_array;
 	public $header;
 	private $status;
 	public static $instance = NULL;
@@ -39,7 +40,6 @@ class Giraffe {
 	public function frontController() {
 	
 		$uri = $_SERVER['REQUEST_URI'];
-
 		// Remove prefix from URI
 		$prefix_count = 0;
 		$uri = str_replace($this->config["url_prefix"],"",$uri,$prefix_count);
@@ -52,32 +52,15 @@ class Giraffe {
 		# TBD - I DONT LIKE THIS
 		//creates an array from the rest of the URL
 		$array_uri = preg_split('[\\/]', $uri, -1, PREG_SPLIT_NO_EMPTY);
-
-		// Remove duplicate content if prefix or suffix not is empty
+		$this->uri_array = $array_uri;
+		// Remove duplicate content if prefix or suffix not is empty -- TBD NOT WORKING 100%
 		if(count($array_uri) != 0 && ((!empty($this->config["url_suffix"]) && $suffix_count == 0) || (!empty($this->config["url_prefix"]) && $prefix_count == 0))) {
 			fourofour("Wrong format on url");
-		}
-		
-		
-		//Here, we will define what is what in the URL
-		if(!empty($array_uri[0])) {
-			$array_tmp_uri[0] = strtolower($array_uri[0]);
-			$this->array_uri['controller'] = $array_uri[0];
-		} else {
-			// Get default controller from database config
-			$this->array_uri['controller'] = $this->config['default_controller'];
-		}
-		if(!empty($array_uri[1])) {
-			$array_uri[1] = strtolower($array_uri[1]);
-			$this->array_uri['method']	= $array_uri[1];
-		}
-		if(!empty($array_tmp_uri[2])) {
-			$this->array_uri['var'] = $array_uri[2];
 		}
 	}
 	public function templateEngine() {
 		// Loads the application
-		$application = new Application($this->array_uri);
+		$application = new Application($this->uri_array);
 		try {
 		$application->loadController();
 		} catch (Exception $e) {

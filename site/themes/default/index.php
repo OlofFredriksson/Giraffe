@@ -6,6 +6,7 @@ Index file in default theme <strong>:D</strong>
 $giraffe = Giraffe::instance();
 print_r($giraffe->getConfig());
 dummy_function();
+echo $text;
 ?>
 <?php
 	get_footer();

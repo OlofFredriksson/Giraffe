@@ -19,5 +19,5 @@ function fourofour($developer_msg = "") {
 	} else {
 		echo "404";
 	}
-	
+	exit;
 }
