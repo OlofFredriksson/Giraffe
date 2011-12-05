@@ -78,6 +78,11 @@ class Giraffe {
 	public function templateEngine() {
 		// Loads the application
 		$application = new Application($this->array_uri);
+		try {
+		$application->loadController();
+		} catch (Exception $e) {
+			fourofour();
+		}
 	}
 	public function getConfig() {
 		return $this->config;
