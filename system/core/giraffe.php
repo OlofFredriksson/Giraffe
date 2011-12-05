@@ -44,7 +44,7 @@ class Giraffe {
 		$pattern = "/^(\/".$this->config["url_prefix"]."[0-9a-z\-\_\/]*".$this->config["url_suffix"].")$/i";
 		
 		// Remove duplicate content if prefix or suffix not is empty
-		if ($uri != "/" || !preg_match($pattern, $uri)) {
+		if ($uri != "/" && !preg_match($pattern, $uri)) {
 			fourofour("Wrong format on url");
 		}
 		
