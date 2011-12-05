@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 	get_header();
 ?>
 <h1>Index file in default theme <strong>:D</strong></h1>

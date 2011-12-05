@@ -1,5 +1,5 @@
 <?php
 	get_header();
-	echo "file not found";
+	echo "404 - File not found";
 	get_footer();
 ?>

@@ -3,6 +3,7 @@
 	<head>
 		<link href="<?php the_siteInfo("theme_url"); ?>/reset.css" rel="stylesheet" type="text/css">
 		<link href="<?php the_siteInfo("stylesheet_url"); ?>" rel="stylesheet" type="text/css">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</head>
 	<body>
 		<div id="wrapper">

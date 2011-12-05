@@ -18,6 +18,7 @@ class Giraffe {
 			echo "<h2>Database connection failed, please check if your system/config.php is correct. Mysql Error: ".$this->db->connect_error."</h2>";
 			exit();
 		}
+		$this->db->set_charset("utf8");
 		$status = true;
 		// Get site options from database
 		$query = $this->db->query("SELECT * FROM ".DB_PREFIX."options") or die($this->db->error);
