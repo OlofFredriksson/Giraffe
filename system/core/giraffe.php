@@ -41,6 +41,13 @@ class Giraffe {
 	public function frontController() {
 	
 		$uri = $_SERVER['REQUEST_URI'];
+		$pattern = "/^(\/".$this->config["url_prefix"]."[0-9a-z\-\_\/]*".$this->config["url_suffix"].")$/i";
+		
+		// Remove duplicate content if prefix or suffix not is empty
+		if ($uri != "/" || !preg_match($pattern, $uri)) {
+			fourofour("Wrong format on url");
+		}
+		
 		// Remove prefix from URI
 		$prefix_count = 0;
 		$uri = str_replace($this->config["url_prefix"],"",$uri,$prefix_count);
@@ -50,14 +57,10 @@ class Giraffe {
 		$uri = str_replace($this->config["url_suffix"],"",$uri,$suffix_count);
 	
 	
-		# TBD - I DONT LIKE THIS
 		//creates an array from the rest of the URL
 		$array_uri = preg_split('[\\/]', $uri, -1, PREG_SPLIT_NO_EMPTY);
 		$this->uri_array = $array_uri;
-		// Remove duplicate content if prefix or suffix not is empty -- TBD NOT WORKING 100%
-		if(count($array_uri) != 0 && ((!empty($this->config["url_suffix"]) && $suffix_count == 0) || (!empty($this->config["url_prefix"]) && $prefix_count == 0))) {
-			fourofour("Wrong format on url");
-		}
+
 	}
 	public function templateEngine() {
 		// Loads the application

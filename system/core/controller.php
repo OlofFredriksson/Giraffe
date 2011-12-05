@@ -5,7 +5,7 @@ class Controller {
 	function loadView($view,$data="") {
 		global $giraffe;
 		if(is_array($data) && count($data) > 0) {
-			extract($data, EXTR_PREFIX_SAME, "wddx");
+			extract($data);
 		}
 		$theme = $giraffe->getConfig();
 		require_once('site/themes/'.$theme["theme"].'/'.$view.'.php');
