@@ -55,7 +55,7 @@ class Giraffe {
 
 		// Remove duplicate content if prefix or suffix not is empty
 		if(count($array_uri) != 0 && ((!empty($this->config["url_suffix"]) && $suffix_count == 0) || (!empty($this->config["url_prefix"]) && $prefix_count == 0))) {
-			die("Wrong format on url"); // TBD - Change this to 404 page
+			fourofour("Wrong format on url");
 		}
 		
 		

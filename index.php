@@ -10,6 +10,20 @@ ALL SITE SPECIFIC SETTINGS IS DONE IN 'config.php' and in database table 'option
 // ------------------------------ PHASE: SETUP ----------------------------------------------------
 
 define('PATH', dirname(__FILE__));
+define('ENVIRONMENT', 'development');
+
+switch (ENVIRONMENT) {
+		case 'development':
+			error_reporting(E_ALL);
+			ini_set('display_errors', '1');
+		break;
+		case 'production':
+			error_reporting(0);
+		break;
+		default:
+			die("ENVIRONMENT variable not correct");
+}
+
 
 // Load bootstrapper
 require_once(PATH ."/system/core/bootstrap.php");
