@@ -44,17 +44,19 @@ class Giraffe {
 		$pattern = "/^(\/".$this->config["url_prefix"]."[0-9a-z\-\_\/]*".$this->config["url_suffix"].")$/i";
 		
 		// Remove duplicate content if prefix or suffix not is empty
-		if ($uri != "/" && !preg_match($pattern, $uri)) {
+		if($uri != "/" && $uri == "/".$this->config["url_prefix"].$this->config["url_suffix"]) {
+			header ('HTTP/1.1 301 Moved Permanently');
+			header('Location:'.$this->config["url"]);
+		}
+		else if ($uri != "/" && !preg_match($pattern, $uri)) {
 			fourofour("Wrong format on url");
 		}
 		
 		// Remove prefix from URI
-		$prefix_count = 0;
-		$uri = str_replace($this->config["url_prefix"],"",$uri,$prefix_count);
+		$uri = str_replace($this->config["url_prefix"],"",$uri);
 		
 		// Remove suffix from URI
-		$suffix_count = 0;
-		$uri = str_replace($this->config["url_suffix"],"",$uri,$suffix_count);
+		$uri = str_replace($this->config["url_suffix"],"",$uri);
 	
 	
 		//creates an array from the rest of the URL
