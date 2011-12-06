@@ -7,7 +7,7 @@ class Application
 	
 	function __construct($uri) {
 		$this->uri 				=	$uri;
-		$this->giraffe 			=	 Giraffe::instance();
+		$this->giraffe 			=	Giraffe::instance();
 	}
 
 	public function loadController() {
@@ -23,9 +23,12 @@ class Application
 		require_once($controller_file);
 		$controller = new $this->uri[0]();
 		if(isset($this->uri[1]) && method_exists($controller, $this->uri[1])) {
-			$controller->{$this->uri[1]}($this->uri[2]);
+			$variables = array_slice($this->uri, 2); 
+			call_user_func_array(array($controller, $this->uri[1]), $variables);
+			
 		} else if(isset($this->uri[1]) && !method_exists($controller, $this->uri[1])) {
 			throw new Exception('Function does not exist');
+		
 		} else {
 			$controller->index();
 		}
