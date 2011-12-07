@@ -41,14 +41,21 @@ class Giraffe {
 	public function frontController() {
 	
 		$uri = $_SERVER['REQUEST_URI'];
-		$pattern = "/^(\/".$this->config["url_prefix"]."[0-9a-z\-\_\/]*".$this->config["url_suffix"].")$/i";
-		
+		$uri = substr($uri , 1); // Remove first slash
+		echo $uri;
+		$pattern = "/^(".$this->config["url_prefix"]."[0-9a-z\-\_\/]*".$this->config["url_suffix"].")$/i";
 		// Remove duplicate content if prefix or suffix not is empty
-		if($uri != "/" && $uri == "/".$this->config["url_prefix"].$this->config["url_suffix"]) {
+		if(!empty($uri) && $uri == $this->config["url_prefix"].$this->config["url_suffix"]) {
 			header ('HTTP/1.1 301 Moved Permanently');
 			header('Location:'.$this->config["url"]);
 		}
-		else if ($uri != "/" && !preg_match($pattern, $uri)) {
+		
+		// If uri is same as default controller, send back user to prevent duplicate content
+		else if($uri == $this->config["default_controller"]) {
+			header ('HTTP/1.1 301 Moved Permanently');
+			header('Location:'.$this->config["url"]);
+		}
+		else if (!empty($uri) && !preg_match($pattern, $uri)) {
 			fourofour("Wrong format on url");
 		}
 		
