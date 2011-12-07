@@ -11,7 +11,6 @@ class Application
 	}
 
 	public function loadController() {
-		
 		if(empty($this->uri[0])) {
 			$this->uri[0] = get_siteInfo("default_controller");
 		}
@@ -32,11 +31,6 @@ class Application
 		} else {
 			$controller->index();
 		}
-	}
-	// TBD
-	function loadModel($model) {
-		require_once('model/'.$model.'.php');
-		$this->$model = new $model;
 	}
 }
 ?>
