@@ -18,6 +18,5 @@ define('DB_PREFIX', 'giff_');
 
 # 2 GENERAL
 
-// Default controller
-define('DEFAULT_CONTROLLER','index');
+define('ENVIRONMENT', 'development');
 ?>

@@ -10,7 +10,11 @@ ALL SITE SPECIFIC SETTINGS IS DONE IN 'config.php' and in database table 'option
 // ------------------------------ PHASE: SETUP ----------------------------------------------------
 
 define('PATH', dirname(__FILE__));
-define('ENVIRONMENT', 'development');
+
+
+
+// Load bootstrapper
+require_once(PATH ."/system/core/bootstrap.php");
 
 switch (ENVIRONMENT) {
 		case 'development':
@@ -23,10 +27,6 @@ switch (ENVIRONMENT) {
 		default:
 			die("ENVIRONMENT variable not correct");
 }
-
-
-// Load bootstrapper
-require_once(PATH ."/system/core/bootstrap.php");
 
 // Load the core class, Giraffe
 $giraffe = Giraffe::instance();
