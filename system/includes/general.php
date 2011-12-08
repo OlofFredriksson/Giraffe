@@ -4,6 +4,14 @@ function get_siteInfo($value = "") {
 	$config = $giraffe->getConfig();
 	$output = "";
 	switch ($value) {
+		case "default_controller":
+			$output = $config["default_controller"];
+		break;
+		
+		case "default_controller_clean_urls":
+			$output = $config["default_controller_clean_urls"];
+		break;
+		
 		case "theme":
 			$output = $config["theme"];
 		break;
@@ -31,15 +39,6 @@ function get_siteInfo($value = "") {
 		case "theme_url":
 			$output = $config["url"]."/site/themes/".$config["theme"];
 		break;
-		
-		case "default_controller":
-			$output = $config["default_controller"];
-		break;
-		
-		case "default_controller_clean_urls":
-			$output = $config["default_controller_clean_urls"];
-		break;
-
 	}
 	
 	return $output;
