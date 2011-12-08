@@ -2,7 +2,7 @@
 class Controller {
 	function __construct() {
 	}
-	 protected function loadView($view,$data="") {
+	 protected function loadView($view,$data = "") {
 		if(is_array($data) && count($data) > 0) {
 			extract($data);
 		}

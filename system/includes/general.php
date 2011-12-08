@@ -35,6 +35,11 @@ function get_siteInfo($value = "") {
 		case "default_controller":
 			$output = $config["default_controller"];
 		break;
+		
+		case "default_controller_clean_urls":
+			$output = $config["default_controller_clean_urls"];
+		break;
+
 	}
 	
 	return $output;

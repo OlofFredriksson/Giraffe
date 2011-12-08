@@ -13,6 +13,9 @@ require_once("application.php");
 //Load our base Controller
 require_once("controller.php");
 
+//Load our base Controller
+require_once("request-handler.php");
+
 // The core class
 require_once("giraffe.php");
 
