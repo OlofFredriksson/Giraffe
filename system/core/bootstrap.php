@@ -7,9 +7,6 @@ if(!file_exists("system/config.php")) {
 // Site specific setup
 require_once("system/config.php");
 
-//Load our base API
-require_once("application.php");
-
 //Load our base Controller
 require_once("controller.php");
 
