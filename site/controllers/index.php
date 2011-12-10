@@ -9,8 +9,8 @@ class index extends Controller {
 		$this->loadView('index',$data);
 	}
 	
-	function example($one="",$two="") {
-		//echo $one." ".$two;
+	function example($one="",$two="",$plus="") {
+		echo $one." ".$two.$plus;
 		$data["text"] = "example controller";
 		$this->loadView('index',$data);
 	}
