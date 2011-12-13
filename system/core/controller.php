@@ -8,11 +8,21 @@ class Controller {
 		}
 		require_once('site/themes/'.get_siteInfo("theme").'/'.$view.'.php');
 	}
-	
-	protected function loadModel($model) {
-		require_once('model/'.$model.'.php');
-		$this->$model = new $model;
-	}
+	public function loadModel($model,$name = "") {
+		if(empty($name)) {
+			$name = $model;
+		}
+		$path = strtolower("site/models/".$model.".php");
+		if(file_exists($path)) {
+			require_once($path);
+			$this->$name = new $model();
+		} else {
+			echo $path;
+			die('Model does not exist');
+			
+		}
+
+}
 
 }
 ?>

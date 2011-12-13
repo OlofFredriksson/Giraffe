@@ -12,6 +12,8 @@ class Page extends Controller {
 	function show($title = "") {
 		$data["id"] = $title;
 		$data["text"] = "Post ...";
+		$this->loadModel("Cms");
+		$data["modeltest"] =  $this->Cms->get_post();
 		$this->loadView('page',$data);
 	}
 }
