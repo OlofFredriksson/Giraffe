@@ -3,7 +3,7 @@ class Giraffe {
 
 	private static $giraffe;
 	private $config;
-	private $db;
+	public $db;
 	private $theme;
 	private $array_uri;
 	private $uri_array;

@@ -22,6 +22,9 @@ h3  a{
 	text-decoration: none;
 	
 }
+p {
+	margin: 20px 0px;
+}
 
 #subTitle {
 	display:inline;

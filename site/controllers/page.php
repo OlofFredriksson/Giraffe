@@ -5,7 +5,7 @@ class Page extends Controller {
 	}
 
 	function index() {
-		$data["text"] = "PAGE CMS";
+		$data["h1"] = "PAGE CMS";
 		$this->loadView('page',$data);
 	}
 	
@@ -13,7 +13,8 @@ class Page extends Controller {
 		$data["id"] = $title;
 		$data["text"] = "Post ...";
 		$this->loadModel("Cms");
-		$data["modeltest"] =  $this->Cms->get_post();
+		$data["post"] = $this->Cms->get_post($title);
+		$data["h1"] = $data["post"]["title"];
 		$this->loadView('page',$data);
 	}
 }
