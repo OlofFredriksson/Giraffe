@@ -1,6 +1,6 @@
 <?php
 
-function get_header() {
+function get_header($title = "", $meta_description = "") {
 	require_once(SITE_PATH."/themes/".get_siteInfo("theme")."/header.php");
 }
 
