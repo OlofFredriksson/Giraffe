@@ -12,7 +12,9 @@ class Giraffe {
 	private $request_handler;
 	public static $instance = NULL;
 	
-	private function __construct() {
+	/*The config variable is optional and is if you want to override settings from the database, so if you send in a value in $config[theme], the site will use what instead for the Database value.
+	A temporary solution until I found a better alternative. */
+	private function __construct($site_config = "") {
 		session_start();
 		// Create database connection
 		$this->db = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
@@ -21,30 +23,40 @@ class Giraffe {
 			exit();
 		}
 		$this->request_handler = new RequestHandler();
+		
+		// Forse database to communicate with UTF-8 as charset
 		$this->db->set_charset("utf8");
 		$status = true;
+		
 		// Get site options from database
+		if(is_array($site_config) && count($site_config) > 0) {
+			$this->config = $site_config;
+		}
 		$query = $this->db->query("SELECT * FROM ".DB_PREFIX."options") or die($this->db->error);
 		while ($row = $query->fetch_object()) {
-			$this->config[$row->option] = $row->value;
+			if(!isset($this->config[$row->option])) {
+				$this->config[$row->option] = $row->value;
+			}
 		}
-		
 		// Get specific theme options
-		require_once(PATH."/site/themes/".$this->config["theme"]."/theme.php");
+		require_once(SITE_PATH."/themes/".$this->config["theme"]."/theme.php");
 	}
 
 	// Singleton
-	public static function instance() {
+	public static function instance($config = "") {
 		if(!isset(self::$instance)) {
-			self::$instance = new Giraffe();
+			self::$instance = new Giraffe($config);
 		}
 		return self::$instance;
 	}
 
-	public function frontController() {
+	public function frontController($base = "") {
 	
 		$uri = $_SERVER['REQUEST_URI'];
 		$uri = substr($uri , 1); // Remove first slash
+		if(!empty($base) && starts_with($uri,$base)) {
+			$uri = substr($uri, strlen($base));
+		}
 		$pattern = "/^(".$this->config["url_prefix"]."[0-9a-z\-\_\/]*".$this->config["url_suffix"].")$/i";
 		// Remove duplicate content if prefix or suffix not is empty
 		if(!empty($uri) && $uri == $this->config["url_prefix"].$this->config["url_suffix"]) {
@@ -53,7 +65,6 @@ class Giraffe {
 		
 		// If uri is same as default controller, send back user to prevent duplicate content
 		else if($uri == $this->config["default_controller"]) {
-			echo "hit";
 			$this->request_handler->forwardTo($this->config["url"],301);
 		}
 		else if (!empty($uri) && !preg_match($pattern, $uri)) {
@@ -70,13 +81,11 @@ class Giraffe {
 		//creates an array from the rest of the URL
 		$array_uri = preg_split('[\\/]', $uri, -1, PREG_SPLIT_NO_EMPTY);
 		$this->uri_array = $array_uri;
-
-	} 
+	}
 	
 	private function loadApplication() {
 		$default_controller_name = get_siteInfo("default_controller");
 		$default_controller_clean_urls = get_siteInfo("default_controller_clean_urls"); # TBD - to long and ugly name
-		
 		// If uri is empty, load standard controller
 		if(empty($this->uri_array[0])) {
 			$controller = $this->loadController($default_controller_name);
@@ -93,12 +102,12 @@ class Giraffe {
 					} else {
 						throw new Exception('Clean urls default controllers function not found!');
 					}
-				} else {
-					throw new Exception('Function does not exist');
+				}
+				 else {
+					throw new Exception('Controller does not exist');
 				}
 			}
-			
-			if(isset($this->uri[1]) && method_exists($controller, $this->uri[1])) {
+			if(isset($this->uri_array[1]) && method_exists($controller, $this->uri_array[1])) {
 				$variables = array_slice($this->uri_array, 2); 
 				call_user_func_array(array($controller, $this->uri_array[1]), $variables);
 				
@@ -112,11 +121,14 @@ class Giraffe {
 	}
 
 	private function loadController($controller_name) {
-		$controller_file = PATH."/site/controllers/".$controller_name.".php";
+		$controller_file = SITE_PATH."/controllers/".$controller_name.".php";
 		if(!file_exists($controller_file) && !class_exists($controller_name)) {
-				throw new Exception('Controller does not exist');
+			throw new Exception('Controller does not exist');
 		}
 		require_once($controller_file);
+		if(!class_exists($controller_name)) {
+			throw new Exception('Controller does not exist');
+		}
 		$controller = new $controller_name();
 		return new $controller();
 	}

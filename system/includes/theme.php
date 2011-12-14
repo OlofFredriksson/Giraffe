@@ -1,11 +1,15 @@
 <?php
 
 function get_header() {
-	require_once(PATH."/site/themes/".get_siteInfo("theme")."/header.php");
+	require_once(SITE_PATH."/themes/".get_siteInfo("theme")."/header.php");
 }
 
 function get_footer() {
-	require_once(PATH."/site/themes/".get_siteInfo("theme")."/footer.php");
+	require_once(SITE_PATH."/themes/".get_siteInfo("theme")."/footer.php");
+}
+
+function get_sidebar() {
+	require_once(SITE_PATH."/themes/".get_siteInfo("theme")."/sidebar.php");
 }
 
 function fourofour($developer_msg = "") {
@@ -13,7 +17,7 @@ function fourofour($developer_msg = "") {
 	if(ENVIRONMENT == "development") {
 		echo $developer_msg;
 	}
-	$file_name = PATH."/site/themes/".get_siteInfo("theme")."/404.php";
+	$file_name = SITE_PATH."/themes/".get_siteInfo("theme")."/404.php";
 	if (file_exists($file_name)) {
 			require_once($file_name);
 	} else {

@@ -13,6 +13,8 @@ h1 {
 }
 h3 {
 	display:inline;
+	font-size: 15px;
+	font-weight: bold;
 }
 h3  a{
 	font-family: 'Cabin Condensed', sans-serif;
@@ -31,23 +33,28 @@ h3  a{
 }
 
 #wrapper {
-	width: 840px;
+	width: 940px;
 	margin: 0 auto;
 }
 
 #container {
 	border-radius: 20px; 
-	width: 800px;
+	width: 900px;
 	padding: 20px;
 	background-color: #FFFFFF;
 	margin: 0 auto;
 	margin-top: 15px;
 	margin-bottom: 15px;
 }
+#content {
+	width: 650px;
+	float: left;
+}
 #menu {
 	background-color: #E8E8E8;
 	float: right;
-	width: 200px;
+	width: 210px;
+	padding: 10px;
 	border-radius: 20px;
 }
 #footerContainer {

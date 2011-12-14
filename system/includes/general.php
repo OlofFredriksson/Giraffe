@@ -5,46 +5,50 @@ function get_siteInfo($value = "") {
 	$output = "";
 	switch ($value) {
 		case "default_controller":
-			$output = $config["default_controller"];
-		break;
-		
 		case "default_controller_clean_urls":
-			$output = $config["default_controller_clean_urls"];
-		break;
-		
 		case "theme":
-			$output = $config["theme"];
-		break;
-		
 		case "uri_prefix":
-			$output = $config["uri_prefix"];
-		break;
-		
 		case "title":
-			$output = $config["title"];
-		break;
-		
 		case "url":
-			$output = $config["url"];
-		break;
-		
 		case "sub_title":
-			$output = $config["sub_title"];
+			$output = $config[$value];
 		break;
-		
 		case "stylesheet_url":
-			$output = $config["url"]."/site/themes/".$config["theme"]."/style.css";
+			$path = substr(SITE_PATH, strlen(PATH));
+			$output = $config["url"].$path."/themes/".$config["theme"]."/style.css";
 		break;
 		
 		case "theme_url":
-			$output = $config["url"]."/site/themes/".$config["theme"];
+			$path = substr(SITE_PATH, strlen(PATH));
+			$output = $config["url"].$path."/themes/".$config["theme"];
 		break;
-	}
-	
+	}	
 	return $output;
 }
 
 function the_siteInfo($value) {
 	echo get_siteInfo($value);
 }
+
+function starts_with($haystack, $needle) {
+	$needle_length = strlen($needle);
+	return ($needle_length <= strlen($haystack)) && (substr($haystack, 0, $needle_length) === $needle);
+}
+
+function ends_with($haystack, $needle) {
+	$length = strlen($needle);
+	$start  = $length * -1; //negative
+	return (substr($haystack, $start) === $needle);
+}
+
+function base_url() {  
+	$url = "";
+	$serverPort = ($_SERVER["SERVER_PORT"] == "80") ? '' :
+		(($_SERVER["SERVER_PORT"] == 443 && @$_SERVER["HTTPS"] == "on") ? '' : ":{$_SERVER['SERVER_PORT']}");
+	$url = 'http' . ((@$_SERVER["HTTPS"] == "on") ? 's' : '') . '://';
+	$url .= $_SERVER["SERVER_NAME"] . $serverPort . htmlspecialchars(dirname($_SERVER['SCRIPT_NAME']));
+
+	return $url;
+  }
+
 ?>
