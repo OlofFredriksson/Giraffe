@@ -49,6 +49,22 @@ function base_url() {
 	$url .= $_SERVER["SERVER_NAME"] . $serverPort . htmlspecialchars(dirname($_SERVER['SCRIPT_NAME']));
 
 	return $url;
-  }
+}
+
+
+function list_navbar($type = "") {
+	global $giraffe;
+	$menu = "<ul>";
+	$type = $giraffe->db->real_escape_string($type);
+	$query = "SELECT * FROM ".DB_PREFIX."menu WHERE type = '".$type."'";
+	$result = $giraffe->db->query($query) or die("Query error");
+	while ($row = $result->fetch_object()) {
+		$menu .= '<l><a href="'.$row->url.'" title="'.$row->anchor.'">'.$row->title.'</a></li>';
+	}
+	$menu .="</ul>";
+	echo $menu;
+}
+
+
 
 ?>

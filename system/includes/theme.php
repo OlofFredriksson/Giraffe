@@ -21,7 +21,7 @@ function fourofour($developer_msg = "") {
 	if (file_exists($file_name)) {
 			require_once($file_name);
 	} else {
-		echo "404";
+		echo "404 - File not found";
 	}
 	exit;
 }
