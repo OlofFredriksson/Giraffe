@@ -59,7 +59,7 @@ function list_navbar($type = "") {
 	$query = "SELECT * FROM ".DB_PREFIX."menu WHERE type = '".$type."'";
 	$result = $giraffe->db->query($query) or die("Query error");
 	while ($row = $result->fetch_object()) {
-		$menu .= '<l><a href="'.$row->url.'" title="'.$row->anchor.'">'.$row->title.'</a></li>';
+		$menu .= '<li><a href="'.$row->url.'" title="'.$row->anchor.'">'.$row->title.'</a></li>';
 	}
 	$menu .="</ul>";
 	echo $menu;
