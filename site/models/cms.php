@@ -4,11 +4,11 @@ class Cms {
 	function __construct() {
 	}
 	public function get_post($slug) {
-		global $giraffe;
+		$db = Database::Instance();
 		$post = array();
-		$slug = $giraffe->db->real_escape_string($slug);
+		$slug = $db->escape($slug);
 		$query = "SELECT * FROM ".DB_PREFIX."post WHERE slug = '".$slug."'";
-		$result = $giraffe->db->query($query) or die("Query error");
+		$result = $db->get_results($query);
 		if(!$result->num_rows == 1) {
 			throw new Exception('Post with slug '.$slug.' is not found');
 		}

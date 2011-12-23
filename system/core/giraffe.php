@@ -16,23 +16,17 @@ class Giraffe {
 	A temporary solution until I found a better alternative. */
 	private function __construct($site_config = "") {
 		session_start();
-		// Create database connection
-		$this->db = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
-		if ($this->db->connect_errno) {
-			echo "<h2>Database connection failed, please check if your system/config.php is correct. Mysql Error: ".$this->db->connect_error."</h2>";
-			exit();
-		}
+		
+		$this->db = Database::instance();
 		$this->request_handler = new RequestHandler();
 		
-		// Forse database to communicate with UTF-8 as charset
-		$this->db->set_charset("utf8");
 		$status = true;
 		
 		// Get site options from database
 		if(is_array($site_config) && count($site_config) > 0) {
 			$this->config = $site_config;
 		}
-		$query = $this->db->query("SELECT * FROM ".DB_PREFIX."options") or die($this->db->error);
+		$query = $this->db->get_results("SELECT * FROM ".DB_PREFIX."options");
 		while ($row = $query->fetch_object()) {
 			if(!isset($this->config[$row->option])) {
 				$this->config[$row->option] = $row->value;
@@ -145,6 +139,11 @@ class Giraffe {
 	}
 	public function getConfig() {
 		return $this->config;
+	}
+	
+	public function debug() {
+		// Comming function
+		return null;
 	}
 }
 ?>

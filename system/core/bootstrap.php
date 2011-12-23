@@ -10,8 +10,10 @@ require_once(SYSTEM_PATH."/config.php");
 //Load our base Controller
 require_once("controller.php");
 
-//Load our base Controller
+// Request handler
 require_once("request-handler.php");
+
+require_once("database.php");
 
 // The core class
 require_once("giraffe.php");
@@ -19,6 +21,7 @@ require_once("giraffe.php");
 // Function files
 require_once(SYSTEM_PATH."/includes/general.php");
 require_once(SYSTEM_PATH."/includes/theme.php");
+
 // Reserved controller names
 $reserved = array('Controller');
 

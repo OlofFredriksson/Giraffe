@@ -54,10 +54,10 @@ function base_url() {
 
 function list_navbar($type = "") {
 	global $giraffe;
+	$type = $giraffe->db->escape($type);
 	$menu = "<ul>";
-	$type = $giraffe->db->real_escape_string($type);
 	$query = "SELECT * FROM ".DB_PREFIX."menu WHERE type = '".$type."'";
-	$result = $giraffe->db->query($query) or die("Query error");
+	$result = $giraffe->db->get_results($query);
 	while ($row = $result->fetch_object()) {
 		$menu .= '<li><a href="'.$row->url.'" title="'.$row->anchor.'">'.$row->title.'</a></li>';
 	}
