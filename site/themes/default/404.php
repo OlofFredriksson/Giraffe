@@ -1,5 +1,4 @@
 <?php
-	get_header();
-	echo "404 - File not found";
-	get_footer();
+	/* With the current solution, we can use get_header and the other theme functions because 404 is not an controller itself. */
+	echo "404 - page not found";
 ?>
