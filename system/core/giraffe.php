@@ -10,6 +10,7 @@ class Giraffe {
 	public $header;
 	private $status;
 	private $request_handler;
+	private $controller;
 	public static $instance = NULL;
 	
 	/*The config variable is optional and is if you want to override settings from the database, so if you send in a value in $config[theme], the site will use what instead for the Database value.
@@ -80,19 +81,21 @@ class Giraffe {
 	private function loadApplication() {
 		$default_controller_name = get_siteInfo("default_controller");
 		$default_controller_clean_urls = get_siteInfo("default_controller_clean_urls"); # TBD - to long and ugly name
+		
 		// If uri is empty, load standard controller
 		if(empty($this->uri_array[0])) {
-			$controller = $this->loadController($default_controller_name);
-			$controller->index();
+			$this->controller = $this->loadController($default_controller_name);
+			$this->controller->index();
 		} else {
 			try {
-				$controller = $this->loadController($this->uri_array[0]);
+				$this->controller = $this->loadController($this->uri_array[0]);
 			} catch (Exception $e) {
+				
 				// System cant find a controller with that name, if default_controller_clean_urls not is empty, send value 0 to the function in default controller
 				if(!empty($default_controller_clean_urls)) {
-					$controller = $this->loadController($default_controller_name);
-					if(method_exists($controller,$default_controller_clean_urls)) {
-						$controller->{$default_controller_clean_urls}($this->uri_array[0]);
+					$this->controller = $this->loadController($default_controller_name);
+					if(method_exists($this->controller,$default_controller_clean_urls)) {
+						$this->controller->{$default_controller_clean_urls}($this->uri_array[0]);
 					} else {
 						throw new Exception('Clean urls default controllers function not found!');
 					}
@@ -101,15 +104,15 @@ class Giraffe {
 					throw new Exception('Controller does not exist');
 				}
 			}
-			if(isset($this->uri_array[1]) && method_exists($controller, $this->uri_array[1])) {
+			if(isset($this->uri_array[1]) && method_exists($this->controller, $this->uri_array[1])) {
 				$variables = array_slice($this->uri_array, 2); 
-				call_user_func_array(array($controller, $this->uri_array[1]), $variables);
+				call_user_func_array(array($this->controller, $this->uri_array[1]), $variables);
 				
-			} else if(isset($this->uri_array[1]) && !method_exists($controller, $this->uri_array[1])) {
+			} else if(isset($this->uri_array[1]) && !method_exists($this->controller, $this->uri_array[1])) {
 				throw new Exception('Function does not exist');
 			
 			} else {
-				$controller->index();
+				$this->controller->index();
 			}
 		}
 	}
@@ -139,6 +142,10 @@ class Giraffe {
 	}
 	public function getConfig() {
 		return $this->config;
+	}
+	
+	public function getController() {
+		return $this->controller;
 	}
 	
 	public function debug() {

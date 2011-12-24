@@ -6,6 +6,7 @@ class index extends Controller {
 
 	function index() {
 		$data["text"] = "index construct";
+		$data["site_title"] = "Test title";
 		$this->loadView('index',$data);
 	}
 	

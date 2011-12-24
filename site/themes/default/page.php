@@ -1,5 +1,5 @@
 <?php
-get_header($site_title);
+$this->loadView("header");
 ?>
 <div><?php list_navbar(); ?></div>
 <h1><?php echo $h1; ?></h1>
