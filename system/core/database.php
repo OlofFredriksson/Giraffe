@@ -25,6 +25,10 @@ class Database {
 		return self::$instance;
 	}
 	
+	public function __destruct() {
+		$this->db->close();
+	}
+	
 	public function get_results($query) {
 		$result = $this->db->query($query) or die($this->db->error);
 		return $result;
