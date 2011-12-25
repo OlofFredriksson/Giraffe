@@ -1,5 +1,5 @@
 <?php
-# 1 DATABASE 
+# 1 DATABASE
 
 // Datbase host
 define('DB_HOST', 'localhost');
