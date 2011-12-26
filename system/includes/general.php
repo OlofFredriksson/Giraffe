@@ -6,6 +6,7 @@ function get_siteInfo($value = "") {
 	switch ($value) {
 		case "default_controller":
 		case "default_controller_clean_urls":
+		case "index":
 		case "theme":
 		case "uri_prefix":
 		case "title":
