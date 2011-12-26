@@ -2,7 +2,7 @@
 class Controller {
 
 	private $cached_vars = array();
-	function __construct() {
+	public function __construct() {
 	}
 	public function loadView($view,$data = "") {
 		if(is_array($data) && count($data) > 0) {
@@ -23,10 +23,7 @@ class Controller {
 		} else {
 			echo $path;
 			die('Model does not exist');
-			
 		}
-
-}
-
+	}
 }
 ?>
