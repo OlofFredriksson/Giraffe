@@ -6,9 +6,5 @@ class dashboard extends Controller {
 	function index() {
 		$this->loadView('index');
 	}
-	
-	function post() {
-		$this->loadView('post');
-	}
 }
 ?>
