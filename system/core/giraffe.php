@@ -16,8 +16,9 @@ class Giraffe {
 	/*The config variable is optional and is if you want to override settings from the database, so if you send in a value in $config[theme], the site will use what instead for the Database value.
 	A temporary solution until I found a better alternative. */
 	private function __construct($site_config = "") {
-		session_start();
 		
+		// Create new session
+		session_start();
 		$this->db = Database::instance();
 		$this->request_handler = new RequestHandler();
 		
@@ -48,21 +49,25 @@ class Giraffe {
 	public function frontController($base = "") {
 	
 		$uri = $_SERVER['REQUEST_URI'];
-		$uri = substr($uri , 1); // Remove first slash
+		$uri = substr($uri,1); // Remove first slash
+		
+		// If we send in a base value, for example in the adminpanel, we need to remove it from the uri before the frontcontroller can start.
 		if(!empty($base) && starts_with($uri,$base)) {
 			$uri = substr($uri, strlen($base));
 		}
-		$pattern = "/^(".$this->config["url_prefix"]."[0-9a-z\-\_\/]*".$this->config["url_suffix"].")$/i";
+		
 		// Remove duplicate content if prefix or suffix not is empty
 		if(!empty($uri) && $uri == $this->config["url_prefix"].$this->config["url_suffix"]) {
 			$this->request_handler->forwardTo($this->config["url"],301);
 		}
 		
 		// If uri is same as default controller, send back user to prevent duplicate content
-		else if($uri == $this->config["default_controller"]) {
+		if($uri == $this->config["url_prefix"].$this->config["default_controller"].$this->config["url_suffix"]) {
 			$this->request_handler->forwardTo($this->config["url"],301);
 		}
-		else if (!empty($uri) && !preg_match($pattern, $uri)) {
+		// The last check, if the uri validates the regex pattern based on prefix and suffis
+		$pattern = "/^(".preg_quote($this->config["url_prefix"],'/')."[0-9a-z\-\_\/]*".preg_quote($this->config["url_suffix"],'/').")$/i";
+		if (!empty($uri) && !preg_match($pattern, $uri)) {
 			fourofour("Wrong format on url");
 		}
 		
@@ -133,7 +138,7 @@ class Giraffe {
 	
 	
 	public function templateEngine() {
-		
+		// If the load application throws an error, display the 404 page
 		try {
 			$this->loadApplication($this->uri_array);
 		} catch (Exception $e) {
