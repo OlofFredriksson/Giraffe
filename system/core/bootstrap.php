@@ -8,15 +8,19 @@ if(!file_exists(SYSTEM_PATH."/config.php")) {
 require_once(SYSTEM_PATH."/config.php");
 
 //Load our base Controller
-require_once("controller.php");
+require_once(SYSTEM_PATH."/core//controller.php");
+
+// Base model
+require_once(SYSTEM_PATH."/core/model.php");
+
 
 // Request handler
-require_once("request-handler.php");
+require_once(SYSTEM_PATH."/core/request-handler.php");
 
-require_once("database.php");
+require_once(SYSTEM_PATH."/core/database.php");
 
 // The core class
-require_once("giraffe.php");
+require_once(SYSTEM_PATH."/core/giraffe.php");
 
 // Function files
 require_once(SYSTEM_PATH."/includes/general.php");
