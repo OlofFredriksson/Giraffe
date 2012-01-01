@@ -3,7 +3,7 @@ class Database {
 	public static $instance = NULL;
 	private $db;
 	private $prefix;
-	
+	private $lastQuery;
 	private function __construct() {
 		$this->prefix = DB_PREFIX;
 		// Create database connection
@@ -28,10 +28,15 @@ class Database {
 	public function __destruct() {
 		$this->db->close();
 	}
-	
+	// For now, this does the same as the query function
 	public function get_results($query) {
-		$result = $this->db->query($query) or die($this->db->error);
-		return $result;
+		$this->lastQuery = $this->db->query($query) or die($this->db->error);
+		return $this->lastQuery;
+	}
+	
+	public function query($query) {
+		$this->lastQuery = $this->db->query($query) or die($this->db->error);
+		return $this->lastQuery;
 	}
 	
 	public function escape($value) {
