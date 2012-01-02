@@ -8,7 +8,7 @@ if(!file_exists(SYSTEM_PATH."/config.php")) {
 require_once(SYSTEM_PATH."/config.php");
 
 //Load our base Controller
-require_once(SYSTEM_PATH."/core//controller.php");
+require_once(SYSTEM_PATH."/core/controller.php");
 
 // Base model
 require_once(SYSTEM_PATH."/core/model.php");

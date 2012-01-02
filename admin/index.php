@@ -21,9 +21,12 @@ switch (ENVIRONMENT) {
 
 # TBD, override data from database
 $config = array(
+	'base'  => 'admin/',
 	'theme'  => 'admin',
 	'default_controller' => 'dashboard',
 	'default_controller_clean_urls' => '',
+	'url_suffix' => '',
+	'url_prefix' => '',
 	'url' => 'http://mvc.snafu.me/admin',
 );
 
@@ -33,7 +36,7 @@ $giraffe = Giraffe::instance($config);
 
 // ------------------------------ PHASE: Frontcontroller ------------------------------------------
 
-$giraffe->frontController("admin/");
+$giraffe->frontController();
 
 
 

@@ -46,12 +46,13 @@ class Giraffe {
 		return self::$instance;
 	}
 
-	public function frontController($base = "") {
+	public function frontController() {
 	
 		$uri = $_SERVER['REQUEST_URI'];
 		$uri = substr($uri,1); // Remove first slash
 		
 		// If we send in a base value, for example in the adminpanel, we need to remove it from the uri before the frontcontroller can start.
+		$base = $this->config["base"];
 		if(!empty($base) && starts_with($uri,$base)) {
 			$uri = substr($uri, strlen($base));
 		}
