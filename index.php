@@ -33,14 +33,9 @@ $giraffe = Giraffe::instance();
 
 
 // ------------------------------ PHASE: Frontcontroller ------------------------------------------
-
 $giraffe->frontController();
 
 
-
 // ------------------------------ PHASE: Template engine ------------------------------------------
-
 $giraffe->templateEngine();
-
-
 ?>
