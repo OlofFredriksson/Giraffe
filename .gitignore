@@ -1,2 +1,4 @@
 system/config.php
 *.swp
+site/controllers/*
+!site/controllers/page.php

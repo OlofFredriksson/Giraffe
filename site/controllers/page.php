@@ -2,7 +2,6 @@
 class Page extends Controller {
 	function __construct() {
 		parent::__construct();
-		//$this->loadModel('model_blog');
 	}
 
 	function index() {
