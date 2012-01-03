@@ -8,7 +8,7 @@
 			}
 		</style>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title>Admin</title>
+		<title><?php echo $site_title; ?></title>
 	</head>
 	<body>
 	<div class="topbar">

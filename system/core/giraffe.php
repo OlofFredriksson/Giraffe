@@ -177,10 +177,10 @@ class Giraffe {
 			$controller_404 = $this->loadController("error_404");
 		} catch (Exception $e) {
 			require_once(SYSTEM_PATH."/controllers/error_404.php");
-			$controller_404 = new error_404();
+			$this->controller = new error_404();
 		}
 		
-		$this->controller = $controller_404;
+		//$this->controller = $controller_404;
 		$this->controller->index();
 		exit;
 	}
