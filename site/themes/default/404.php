@@ -1,4 +1,9 @@
 <?php
-	/* With the current solution, we can use get_header and the other theme functions because 404 is not an controller itself. */
-	echo "404 - page not found";
+get_header();
+?>
+<h1>404 - File not found</h1>
+<?php
+$giraffe = Giraffe::instance();
+$giraffe->debug();
+get_footer();
 ?>

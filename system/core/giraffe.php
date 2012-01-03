@@ -11,6 +11,7 @@ class Giraffe {
 	private $status;
 	private $request_handler;
 	private $controller;
+	private $debug = array();
 	public static $instance = NULL;
 	
 	/*The config variable is optional and is if you want to override settings from the database, so if you send in a value in $config[theme], the site will use what instead for the Database value.
@@ -66,10 +67,11 @@ class Giraffe {
 		if($uri == $this->config["url_prefix"].$this->config["default_controller"].$this->config["url_suffix"]) {
 			$this->request_handler->forwardTo($this->config["url"],301);
 		}
-		// The last check, if the uri validates the regex pattern based on prefix and suffis
+		// The last check, if the uri validates the regex pattern based on prefix and suffix
 		$pattern = "/^(".preg_quote($this->config["url_prefix"],'/')."[0-9a-z\-\_\/]*".preg_quote($this->config["url_suffix"],'/').")$/i";
 		if (!empty($uri) && !preg_match($pattern, $uri)) {
-			fourofour("Wrong format on url");
+			$this->debug["frontcontroller"] = "Wrong format on url";
+			$this->fourofour();
 		}
 		
 		// Remove prefix from URI
@@ -123,8 +125,11 @@ class Giraffe {
 		}
 	}
 
-	private function loadController($controller_name) {
-		$controller_file = SITE_PATH."/controllers/".$controller_name.".php";
+	private function loadController($controller_name,$path = "") {
+		if(empty($path)) {
+			$path = SITE_PATH."/controllers/";
+		}
+		$controller_file = $path.$controller_name.".php";
 		if(!file_exists($controller_file) && !class_exists($controller_name)) {
 			throw new Exception('Controller does not exist');
 		}
@@ -143,7 +148,8 @@ class Giraffe {
 		try {
 			$this->loadApplication($this->uri_array);
 		} catch (Exception $e) {
-			fourofour($e->getMessage());
+			$this->debug["templateEngine"] = $e->getMessage();
+			$this->fourofour();
 		}
 	}
 	public function getConfig() {
@@ -155,8 +161,28 @@ class Giraffe {
 	}
 	
 	public function debug() {
-		// Comming function
-		return null;
+		if(ENVIRONMENT == "development") {
+			print_r($this->debug);
+			echo "<pre>";
+			print_r($this->getConfig());
+			echo "</pre>";
+		}
+	}
+	
+	private function fourofour($debug = "") {
+		header('HTTP/1.0 404 Not Found');
+		
+		// First check if user has defined a custom 404 controller, otherwise we use the standard from Giraffe mvc
+		try {
+			$controller_404 = $this->loadController("error_404");
+		} catch (Exception $e) {
+			require_once(SYSTEM_PATH."/controllers/error_404.php");
+			$controller_404 = new error_404();
+		}
+		
+		$this->controller = $controller_404;
+		$this->controller->index();
+		exit;
 	}
 }
 ?>

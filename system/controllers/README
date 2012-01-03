@@ -1,0 +1,1 @@
+The controllers in this folders is default controllers for the Giraffe mvc, for example 404. The place to put custom controllers is in the controller directory in the site path. It is possible to override the the default controllers, just use the same file and class name.
