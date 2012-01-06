@@ -30,8 +30,9 @@ $config = array(
 	'url' => 'http://mvc.snafu.me/admin',
 );
 
+
 // Load the core class, Giraffe
-$giraffe = Giraffe::instance($config);
+$giraffe = Giraffe::instance("admin",$config);
 
 
 // ------------------------------ PHASE: Frontcontroller ------------------------------------------

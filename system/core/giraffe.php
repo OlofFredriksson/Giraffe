@@ -16,7 +16,7 @@ class Giraffe {
 	
 	/*The config variable is optional and is if you want to override settings from the database, so if you send in a value in $config[theme], the site will use what instead for the Database value.
 	A temporary solution until I found a better alternative. */
-	private function __construct($site_config = "") {
+	private function __construct($site_name, $site_config = "") {
 		
 		// Create new session
 		session_start();
@@ -29,20 +29,29 @@ class Giraffe {
 		if(is_array($site_config) && count($site_config) > 0) {
 			$this->config = $site_config;
 		}
-		$query = $this->db->get_results("SELECT * FROM ".DB_PREFIX."options");
+		
+		
+		$site_name = $this->db->escape($site_name);
+		// The ORDER BY makes so it takes the 'global' variables first, and then site specific so you could override them.
+		$sql = "SELECT * FROM ".DB_PREFIX."options WHERE site = '".$site_name."' OR site = '' ORDER BY site ASC";
+		
+		$query = $this->db->get_results($sql);
 		while ($row = $query->fetch_object()) {
 			if(!isset($this->config[$row->option])) {
 				$this->config[$row->option] = $row->value;
 			}
 		}
+		// Before we begin to build the site, lets do a check so at least some of the variables is defined
+		$this->analyseConfigValues();
+		
 		// Get specific theme options
 		require_once(SITE_PATH."/themes/".$this->config["theme"]."/theme.php");
 	}
 
 	// Singleton
-	public static function instance($config = "") {
+	public static function instance($name,$config = "") {
 		if(!isset(self::$instance)) {
-			self::$instance = new Giraffe($config);
+			self::$instance = new Giraffe($name,$config);
 		}
 		return self::$instance;
 	}
@@ -170,6 +179,8 @@ class Giraffe {
 	}
 	
 	private function fourofour($debug = "") {
+		
+		// Set the correct header
 		header('HTTP/1.0 404 Not Found');
 		
 		// First check if user has defined a custom 404 controller, otherwise we use the standard from Giraffe mvc
@@ -183,6 +194,13 @@ class Giraffe {
 		//$this->controller = $controller_404;
 		$this->controller->index();
 		exit;
+	}
+	
+	// It requires some variables to build this page, and if these are not defined, we could interrupt construction
+	private function analyseConfigValues() {
+		if(!isset($this->config["theme"]) || !isset($this->config["base"]) || !isset($this->config["default_controller"])) {
+			die("Required config variables is missing, please check your database.");
+		} 
 	}
 }
 ?>

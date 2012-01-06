@@ -29,7 +29,7 @@ switch (ENVIRONMENT) {
 }
 
 // Load the core class, Giraffe
-$giraffe = Giraffe::instance();
+$giraffe = Giraffe::instance("default");
 
 
 // ------------------------------ PHASE: Frontcontroller ------------------------------------------
