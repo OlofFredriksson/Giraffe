@@ -25,8 +25,4 @@ require_once(SYSTEM_PATH."/core/giraffe.php");
 // Function files
 require_once(SYSTEM_PATH."/includes/general.php");
 require_once(SYSTEM_PATH."/includes/theme.php");
-
-// Reserved controller names
-$reserved = array('Controller');
-
 ?>
