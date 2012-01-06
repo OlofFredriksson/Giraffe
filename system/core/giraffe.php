@@ -32,7 +32,7 @@ class Giraffe {
 		
 		
 		$site_name = $this->db->escape($site_name);
-		// The ORDER BY makes so it takes the 'global' variables first, and then site specific so you could override them.
+		// The ORDER BY makes so it takes the 'global' variables first, and then site specific so you could override.
 		$sql = "SELECT * FROM ".DB_PREFIX."options WHERE site = '".$site_name."' OR site = '' ORDER BY site ASC";
 		
 		$query = $this->db->get_results($sql);

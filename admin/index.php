@@ -19,20 +19,8 @@ switch (ENVIRONMENT) {
 			die("ENVIRONMENT variable not correct");
 }
 
-# TBD, override data from database
-$config = array(
-	'base'  => 'admin/',
-	'theme'  => 'admin',
-	'default_controller' => 'dashboard',
-	'default_controller_clean_urls' => '',
-	'url_suffix' => '',
-	'url_prefix' => '',
-	'url' => 'http://mvc.snafu.me/admin',
-);
-
-
 // Load the core class, Giraffe
-$giraffe = Giraffe::instance("admin",$config);
+$giraffe = Giraffe::instance("admin");
 
 
 // ------------------------------ PHASE: Frontcontroller ------------------------------------------
