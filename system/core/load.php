@@ -9,7 +9,7 @@ class Load {
 	
 	public function view($view,$_data = "") {
 		
-		#TBD UGLY WAY TO WRITE $this->load->view from theme files
+		#TBD UGLY WAY TO MAKE IT POSSIBLE TO WRITE $this->load->view from theme files
 		$this->load = &$this->contr->load;
 		
 		if(is_array($_data) && count($_data) > 0) {
@@ -32,6 +32,20 @@ class Load {
 			// Initiate model and give it a Loader
 			$this->contr->$name = new $model();
 			$this->contr->$name->load = new Load($this->contr->$name);
+	}
+	
+	public function helper($helper,$name = "") {
+		if(empty($name)) {
+			$name = $helper;
+		}
+		$path = strtolower(SYSTEM_PATH."/helpers/".$helper.".php");
+		if(!file_exists($path)) {
+			echo $path;
+			die('Helper '.$helper.' does not exist');
+		}
+			require_once($path);
+			$this->contr->$name = new $helper();
+
 	}
 
 }
