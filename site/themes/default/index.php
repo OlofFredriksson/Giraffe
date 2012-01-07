@@ -1,5 +1,5 @@
 ﻿<?php
-get_header();
+$this->load->view("header");
 ?>
 <h1>Index file in default theme <strong>:D</strong></h1>
 <?php

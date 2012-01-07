@@ -1,6 +1,7 @@
 <?php
-$this->loadView("header");
+$this->load->view("header");
 ?>
+
 <div><?php list_navbar(); ?></div>
 <h1><?php echo $h1; ?></h1>
 

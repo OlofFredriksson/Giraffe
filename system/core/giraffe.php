@@ -49,7 +49,7 @@ class Giraffe {
 	}
 
 	// Singleton
-	public static function instance($name,$config = "") {
+	public static function instance($name = "",$config = "") {
 		if(!isset(self::$instance)) {
 			self::$instance = new Giraffe($name,$config);
 		}
@@ -103,6 +103,7 @@ class Giraffe {
 		if(empty($this->uri_array[0])) {
 			$this->controller = $this->loadController($default_controller_name);
 			$this->controller->index();
+			exit;
 		} else {
 			try {
 				$this->controller = $this->loadController($this->uri_array[0]);
@@ -113,6 +114,7 @@ class Giraffe {
 					$this->controller = $this->loadController($default_controller_name);
 					if(method_exists($this->controller,$default_controller_clean_urls)) {
 						$this->controller->{$default_controller_clean_urls}($this->uri_array[0]);
+						exit;
 					} else {
 						throw new Exception('Clean urls default controllers function not found!');
 					}
@@ -124,12 +126,14 @@ class Giraffe {
 			if(isset($this->uri_array[1]) && method_exists($this->controller, $this->uri_array[1])) {
 				$variables = array_slice($this->uri_array, 2); 
 				call_user_func_array(array($this->controller, $this->uri_array[1]), $variables);
+				exit;
 				
 			} else if(isset($this->uri_array[1]) && !method_exists($this->controller, $this->uri_array[1])) {
 				throw new Exception('Function does not exist');
 			
 			} else {
 				$this->controller->index();
+				exit;
 			}
 		}
 	}
@@ -147,11 +151,9 @@ class Giraffe {
 			throw new Exception('Controller does not exist');
 		}
 		$controller = new $controller_name();
-		return new $controller();
+		return $controller;
 	}
-	
-	
-	
+
 	public function templateEngine() {
 		// If the load application throws an error, display the 404 page
 		try {

@@ -1,5 +1,5 @@
 <?php
-$this->loadView("header");
+$this->load->view("header");
 ?>
 <h1>404 - File not found</h1>
 <?php

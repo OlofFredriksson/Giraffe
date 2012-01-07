@@ -3,7 +3,7 @@ class dashboard extends Controller {
 	
 	function index() {
 		$data["site_title"] = "Admin";
-		$this->loadView('index',$data);
+		$this->load->view('index',$data);
 	}
 }
 ?>

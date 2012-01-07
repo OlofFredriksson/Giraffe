@@ -7,11 +7,11 @@ class post extends Controller {
 	}
 
 	function index() {
-		$this->loadView('post',$this->data);
+		$this->load->view('post',$this->data);
 	}
 	
 	function create() {
-		$this->loadView('post',$this->data);
+		$this->load->view('post',$this->data);
 	}
 }
 ?>

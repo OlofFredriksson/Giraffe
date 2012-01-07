@@ -1,4 +1,7 @@
 <?php
+function &get_instance() {
+		return Controller::get_instance();
+}
 function get_siteInfo($value = "") {
 	global $giraffe;
 	$config = $giraffe->getConfig();
