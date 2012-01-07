@@ -110,7 +110,7 @@ class Giraffe {
 			} catch (Exception $e) {
 				
 				// System cant find a controller with that name, if default_controller_clean_urls not is empty, send value 0 to the function in default controller
-				if(!empty($default_controller_clean_urls)) {
+				if(isset($default_controller_clean_urls)) {
 					$this->controller = $this->loadController($default_controller_name);
 					if(method_exists($this->controller,$default_controller_clean_urls)) {
 						$this->controller->{$default_controller_clean_urls}($this->uri_array[0]);
