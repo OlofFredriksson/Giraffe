@@ -11,7 +11,7 @@ ALL SITE SPECIFIC SETTINGS IS DONE IN 'config.php' and in database table 'option
 
 define('PATH', dirname(__FILE__));
 define('SITE_PATH', PATH."/site");
-define('SYSTEM_PATH', dirname(__FILE__)."/system");
+define('SYSTEM_PATH', PATH."/system");
 
 // Load bootstrapper
 require_once(SYSTEM_PATH ."/core/bootstrap.php");

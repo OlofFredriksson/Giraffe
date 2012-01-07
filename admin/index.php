@@ -1,7 +1,7 @@
 <?php
 // ------------------------------ PHASE: SETUP ----------------------------------------------------
 define('PATH', dirname(__FILE__));
-define('SYSTEM_PATH', dirname(__FILE__)."/../system");
+define('SYSTEM_PATH', PATH."/../system");
 define('SITE_PATH', PATH);
 
 // Load bootstrapper
