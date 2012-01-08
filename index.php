@@ -37,5 +37,5 @@ $giraffe->frontController();
 
 
 // ------------------------------ PHASE: Template engine ------------------------------------------
-$giraffe->templateEngine();
+$giraffe->engine();
 ?>
