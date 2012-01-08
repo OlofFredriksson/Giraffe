@@ -17,6 +17,7 @@ define('DB_PASSWORD', 'Database password');
 define('DB_PREFIX', 'giff_');
 
 # 2 GENERAL
-
+// Login salt, change this to something unique ;) Why not use Wordpress api? https://api.wordpress.org/secret-key/1.1/salt
+define('AUTH_SALT', '2GJm}N!rkJEM}8`Z.cAw>ZO._mC|?9[qI=&!:?5a3,OLhKiOToK1,roVt|NOA>;%');
 define('ENVIRONMENT', 'development');
 ?>
