@@ -8,19 +8,21 @@ class Giraffe {
 	private $debug = array();
 	private $config;
 	private $theme;
-	private $uri;
-	private $uri_array;
+	public $uri = "dasd";
+	private $uri_array = array();
 	public $db;
 	public $header;
+	public $auth;
 	public static $instance = NULL;
 	
 	/*The config variable is optional and is if you want to override settings from the database, so if you send in a value in $config[theme], the site will use what instead for the Database value.
 	A temporary solution until I found a better alternative. */
 	private function __construct($site_name, $site_config = "") {
-		$this->uri = "";
 		// Create new session
 		session_start();
+		
 		$this->db = Database::instance();
+		$this->auth = new Auth($this->db);
 		$this->request_handler = new RequestHandler();
 		
 		// Get site options from database
@@ -30,7 +32,7 @@ class Giraffe {
 		
 		
 		$this->site_name = $this->db->escape($site_name);
-		// The ORDER BY makes so it takes the 'global' variables first, and then site specific so you could override.
+		// The ORDER BY makes so it takes the 'global' variables first, and then site specific so it could  be override.
 		$sql = "SELECT * FROM ".DB_PREFIX."options WHERE site = '".$this->site_name."' OR site = '' ORDER BY site ASC";
 		
 		$query = $this->db->get_results($sql);
@@ -53,9 +55,8 @@ class Giraffe {
 		}
 		return self::$instance;
 	}
-
+	// Phase 1, Controll uri and prevent duplicate content
 	public function frontController() {
-		
 		$uri = substr($_SERVER['REQUEST_URI'],1); // Assign uri and remove first slash
 		$this->debug["raw_uri"] = $uri;
 		
@@ -89,13 +90,13 @@ class Giraffe {
 		$this->uri = $uri;
 	
 	}
-	
+	// Phase 2, it's time to render the page based on the uri, this function also handle can urls
 	public function engine($passed_uri = "") {
 		$this->debug["passed_uri"] = $passed_uri;
 		if(!empty($passed_uri)) {
 			$this->uri = $passed_uri;
 		}
-		$this->debug["uri"] = $this->uri;
+		$this->debug["actual_uri"] = $this->uri;
 		// In this mvc, routes got higher priority and we start to search if it exist a can url for this uri
 		if($route = $this->get_route($this->uri)) {
 			// If the route is external, go to that page
@@ -112,6 +113,11 @@ class Giraffe {
 			//creates an array from the rest of the URL
 			$this->uri_array = preg_split('[\\/]', $this->uri, -1, PREG_SPLIT_NO_EMPTY);
 			// If the load application throws an error, display the 404 page
+			// Login controll, if the config var 'auth' refers to a controller, we force user to se that controller instead if the wanted
+			if(!empty($this->config["auth"]) && !$this->auth->isLoggedIn()) {
+				$this->uri_array[0] = $this->config["auth"];
+				$this->debug["login_status"] = "Not logged in";
+			}
 			try {
 				$this->loadApplication($this->uri_array);
 			} catch (Exception $e) {
@@ -161,6 +167,7 @@ class Giraffe {
 		foreach ($config_values as $value) {
  			if(!isset($this->config[$value])) {
 				echo "Required config variables is missing, please check your database. Required variables: <br />";
+				// Don't looks pretty, but it works for now..
 				print_r($config_values);
 				die();
 			}
