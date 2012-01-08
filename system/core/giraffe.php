@@ -8,7 +8,6 @@ class Giraffe {
 	private $array_uri;
 	private $uri_array;
 	public $header;
-	private $status;
 	private $request_handler;
 	private $controller;
 	private $debug = array();
@@ -22,8 +21,6 @@ class Giraffe {
 		session_start();
 		$this->db = Database::instance();
 		$this->request_handler = new RequestHandler();
-		
-		$status = true;
 		
 		// Get site options from database
 		if(is_array($site_config) && count($site_config) > 0) {
