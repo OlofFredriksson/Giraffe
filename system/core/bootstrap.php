@@ -7,20 +7,13 @@ if(!file_exists(SYSTEM_PATH."/config.php")) {
 // Site specific setup
 require_once(SYSTEM_PATH."/config.php");
 
+//Core files
 require_once(SYSTEM_PATH."/core/load.php");
-
-//Load our base Controller
 require_once(SYSTEM_PATH."/core/controller.php");
-
-// Base model
 require_once(SYSTEM_PATH."/core/model.php");
-
-// Request handler
 require_once(SYSTEM_PATH."/core/request-handler.php");
-
 require_once(SYSTEM_PATH."/core/database.php");
-
-// The core class
+require_once(SYSTEM_PATH."/core/auth.php");
 require_once(SYSTEM_PATH."/core/giraffe.php");
 
 // Function files
