@@ -200,9 +200,15 @@ class Giraffe {
 	
 	// It requires some variables to build this page, and if these are not defined, we could interrupt construction
 	private function analyseConfigValues() {
-		if(!isset($this->config["theme"]) || !isset($this->config["auth"]) || !isset($this->config["base"]) || !isset($this->config["default_controller"])) {
-			die("Required config variables is missing, please check your database.");
-		} 
+		$config_values = array("theme", "auth", "base", "default_controller", "default_controller_clean_urls");
+		foreach ($config_values as $value) {
+ 			if(!isset($this->config[$value])) {
+				echo "Required config variables is missing, please check your database. Required variables: <br />";
+				print_r($config_values);
+				die();
+			}
+		}
+		 
 	}
 }
 ?>
