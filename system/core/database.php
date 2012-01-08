@@ -9,8 +9,7 @@ class Database {
 		// Create database connection
 		$this->db = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
 		if ($this->db->connect_errno) {
-			echo "<h2>Database connection failed, please check if your system/config.php is correct. Mysql Error: ".$this->db->connect_error."</h2>";
-			exit();
+			die("<h2>Database connection failed, please check if your system/config.php is correct. Mysql Error: ".$this->db->connect_error."</h2>");
 		}
 		
 		// Force database to communicate with UTF-8 as charset
