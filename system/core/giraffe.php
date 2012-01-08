@@ -10,6 +10,7 @@ class Giraffe {
 	public $header;
 	private $request_handler;
 	private $controller;
+	private $site_name;
 	private $debug = array();
 	public static $instance = NULL;
 	
@@ -28,9 +29,9 @@ class Giraffe {
 		}
 		
 		
-		$site_name = $this->db->escape($site_name);
+		$this->site_name = $this->db->escape($site_name);
 		// The ORDER BY makes so it takes the 'global' variables first, and then site specific so you could override.
-		$sql = "SELECT * FROM ".DB_PREFIX."options WHERE site = '".$site_name."' OR site = '' ORDER BY site ASC";
+		$sql = "SELECT * FROM ".DB_PREFIX."options WHERE site = '".$this->site_name."' OR site = '' ORDER BY site ASC";
 		
 		$query = $this->db->get_results($sql);
 		while ($row = $query->fetch_object()) {
@@ -53,43 +54,62 @@ class Giraffe {
 		return self::$instance;
 	}
 
-	public function frontController() {
-	
-		$uri = $_SERVER['REQUEST_URI'];
-		$uri = substr($uri,1); // Remove first slash
+	public function frontController($passed_uri = "") {
 		
+		$uri = substr($_SERVER['REQUEST_URI'],1); // Assign uri and remove first slash
+		$this->debug["passed_uri"] = $passed_uri;
+		$this->debug["raw_uri"] = $uri;
+		
+		if(!empty($passed_uri)) {
+			$uri = $passed_uri;
+		}
+		$this->debug["uri"] = $uri;
 		// If we send in a base value, for example in the adminpanel, we need to remove it from the uri before the frontcontroller can start.
 		$base = $this->config["base"];
 		if(!empty($base) && starts_with($uri,$base)) {
 			$uri = substr($uri, strlen($base));
 		}
 		
-		// Remove duplicate content if prefix or suffix not is empty
-		if(!empty($uri) && $uri == $this->config["url_prefix"].$this->config["url_suffix"]) {
-			$this->request_handler->forwardTo($this->config["url"],301);
+		// In this mvc, routes got higher priority and we start to search if it exist a can url for this uri
+		if($route = $this->get_route($uri)) {
+			// If the route is external, go to that page
+			if ($route->external == 1) {
+				header("Location: ".$route->route_to);
+				exit;
+			}
+			// Or run the frontcontroller again with the new uri
+			else {
+				$this->frontController($route->route_to);
+			}
 		}
+		else {
+			// Remove duplicate content if prefix or suffix not is empty
+			if(!empty($uri) && $uri == $this->config["url_prefix"].$this->config["url_suffix"]) {
+				$this->request_handler->forwardTo($this->config["url"],301);
+			}
+			
+			// If uri is same as default controller, send back user to prevent duplicate content
+			if($uri == $this->config["url_prefix"].$this->config["default_controller"].$this->config["url_suffix"]) {
+				$this->request_handler->forwardTo($this->config["url"],301);
+			}
+			// The last check, if the uri validates the regex pattern based on prefix and suffix
+			$pattern = "/^(".preg_quote($this->config["url_prefix"],'/')."[0-9a-z\-\_\/]*".preg_quote($this->config["url_suffix"],'/').")$/i";
+			if (!empty($uri) && !preg_match($pattern, $uri)) {
+				$this->debug["frontcontroller"] = "Wrong format on url";
+				$this->fourofour();
+			}
+			
+			// Remove prefix from URI
+			$uri = str_replace($this->config["url_prefix"],"",$uri);
+			
+			// Remove suffix from URI
+			$uri = str_replace($this->config["url_suffix"],"",$uri);
 		
-		// If uri is same as default controller, send back user to prevent duplicate content
-		if($uri == $this->config["url_prefix"].$this->config["default_controller"].$this->config["url_suffix"]) {
-			$this->request_handler->forwardTo($this->config["url"],301);
+		
+			//creates an array from the rest of the URL
+			$array_uri = preg_split('[\\/]', $uri, -1, PREG_SPLIT_NO_EMPTY);
+			$this->uri_array = $array_uri;
 		}
-		// The last check, if the uri validates the regex pattern based on prefix and suffix
-		$pattern = "/^(".preg_quote($this->config["url_prefix"],'/')."[0-9a-z\-\_\/]*".preg_quote($this->config["url_suffix"],'/').")$/i";
-		if (!empty($uri) && !preg_match($pattern, $uri)) {
-			$this->debug["frontcontroller"] = "Wrong format on url";
-			$this->fourofour();
-		}
-		
-		// Remove prefix from URI
-		$uri = str_replace($this->config["url_prefix"],"",$uri);
-		
-		// Remove suffix from URI
-		$uri = str_replace($this->config["url_suffix"],"",$uri);
-	
-	
-		//creates an array from the rest of the URL
-		$array_uri = preg_split('[\\/]', $uri, -1, PREG_SPLIT_NO_EMPTY);
-		$this->uri_array = $array_uri;
 	}
 	
 	private function loadApplication() {
@@ -206,6 +226,16 @@ class Giraffe {
 			}
 		}
 		 
+	}
+	
+	private function get_route($can_url) {
+		$value = "";
+		$can = $this->db->escape($can_url);
+		$result = $this->db->query("SELECT * FROM ".DB_PREFIX."routes WHERE route = '{$can}' AND active='1' AND site = '".$this->site_name."' ORDER BY route DESC LIMIT 1");
+		if (is_object($result)) {
+		$value = $result->fetch_object();
+		}
+		return $value;
 	}
 }
 ?>
