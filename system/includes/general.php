@@ -7,14 +7,18 @@ function get_siteInfo($value = "") {
 	$config = $giraffe->getConfig();
 	$output = "";
 	switch ($value) {
+		case "auth":
+		case "base":
 		case "default_controller":
 		case "default_controller_clean_urls":
 		case "index":
+		case "master_site":
+		case "sub_title":
+		case "title":
 		case "theme":
 		case "uri_prefix":
-		case "title":
+		case "uri_suffix":
 		case "url":
-		case "sub_title":
 			$output = $config[$value];
 		break;
 		case "stylesheet_url":

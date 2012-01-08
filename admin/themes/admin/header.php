@@ -16,7 +16,7 @@
 			<div class="container-fluid">
 				<a class="brand" href="<?php the_siteInfo("url");?>">Admin</a>
 				<ul class="nav">
-					<li><a href="<?php the_siteInfo("index"); ?>">Site index</a></li>
+					<li><a href="<?php the_siteInfo("master_site"); ?>">Site index</a></li>
 				</ul>
 				<p class="pull-right">Logged in as <a href="#">username</a></p>
 			</div>
