@@ -2,22 +2,22 @@
 class Giraffe {
 
 	private static $giraffe;
-	private $config;
-	public $db;
-	private $theme;
-	private $array_uri;
-	private $uri_array;
-	public $header;
 	private $request_handler;
 	private $controller;
 	private $site_name;
 	private $debug = array();
+	private $config;
+	private $theme;
+	private $uri;
+	private $uri_array;
+	public $db;
+	public $header;
 	public static $instance = NULL;
 	
 	/*The config variable is optional and is if you want to override settings from the database, so if you send in a value in $config[theme], the site will use what instead for the Database value.
 	A temporary solution until I found a better alternative. */
 	private function __construct($site_name, $site_config = "") {
-		
+		$this->uri = "";
 		// Create new session
 		session_start();
 		$this->db = Database::instance();
@@ -54,62 +54,128 @@ class Giraffe {
 		return self::$instance;
 	}
 
-	public function frontController($passed_uri = "") {
+	public function frontController() {
 		
 		$uri = substr($_SERVER['REQUEST_URI'],1); // Assign uri and remove first slash
-		$this->debug["passed_uri"] = $passed_uri;
 		$this->debug["raw_uri"] = $uri;
 		
-		if(!empty($passed_uri)) {
-			$uri = $passed_uri;
-		}
-		$this->debug["uri"] = $uri;
-		// If we send in a base value, for example in the adminpanel, we need to remove it from the uri before the frontcontroller can start.
+		// If we send in a base value, for example in the adminpanel or placing the site inside a subfolder, we need to remove it from the uri before the frontcontroller can start.
 		$base = $this->config["base"];
 		if(!empty($base) && starts_with($uri,$base)) {
 			$uri = substr($uri, strlen($base));
 		}
 		
+		// Remove duplicate content if prefix or suffix not is empty
+		if(!empty($uri) && $uri == $this->config["url_prefix"].$this->config["url_suffix"]) {
+			$this->request_handler->forwardTo($this->config["url"],301);
+		}
+		
+		// If uri is same as default controller, send back user to prevent duplicate content
+		if($uri == $this->config["url_prefix"].$this->config["default_controller"].$this->config["url_suffix"]) {
+			$this->request_handler->forwardTo($this->config["url"],301);
+		}
+		// The last check, if the uri validates the regex pattern based on prefix and suffix
+		$pattern = "/^(".preg_quote($this->config["url_prefix"],'/')."[0-9a-z\-\_\/]*".preg_quote($this->config["url_suffix"],'/').")$/i";
+		if (!empty($uri) && !preg_match($pattern, $uri)) {
+			$this->debug["frontcontroller"] = "Wrong format on url";
+			$this->fourofour();
+		}
+		
+		// Remove prefix from URI
+		$uri = str_replace($this->config["url_prefix"],"",$uri);
+		
+		// Remove suffix from URI
+		$uri = str_replace($this->config["url_suffix"],"",$uri);
+		$this->uri = $uri;
+	
+	}
+	
+	public function engine($passed_uri = "") {
+		$this->debug["passed_uri"] = $passed_uri;
+		if(!empty($passed_uri)) {
+			$this->uri = $passed_uri;
+		}
+		$this->debug["uri"] = $this->uri;
 		// In this mvc, routes got higher priority and we start to search if it exist a can url for this uri
-		if($route = $this->get_route($uri)) {
+		if($route = $this->get_route($this->uri)) {
 			// If the route is external, go to that page
 			if ($route->external == 1) {
 				header("Location: ".$route->route_to);
 				exit;
 			}
-			// Or run the frontcontroller again with the new uri
+			// Or run the templateEngine again with the new uri
 			else {
-				$this->frontController($route->route_to);
+				$this->engine($route->route_to);
 			}
 		}
 		else {
-			// Remove duplicate content if prefix or suffix not is empty
-			if(!empty($uri) && $uri == $this->config["url_prefix"].$this->config["url_suffix"]) {
-				$this->request_handler->forwardTo($this->config["url"],301);
-			}
-			
-			// If uri is same as default controller, send back user to prevent duplicate content
-			if($uri == $this->config["url_prefix"].$this->config["default_controller"].$this->config["url_suffix"]) {
-				$this->request_handler->forwardTo($this->config["url"],301);
-			}
-			// The last check, if the uri validates the regex pattern based on prefix and suffix
-			$pattern = "/^(".preg_quote($this->config["url_prefix"],'/')."[0-9a-z\-\_\/]*".preg_quote($this->config["url_suffix"],'/').")$/i";
-			if (!empty($uri) && !preg_match($pattern, $uri)) {
-				$this->debug["frontcontroller"] = "Wrong format on url";
+			//creates an array from the rest of the URL
+			$this->uri_array = preg_split('[\\/]', $this->uri, -1, PREG_SPLIT_NO_EMPTY);
+			// If the load application throws an error, display the 404 page
+			try {
+				$this->loadApplication($this->uri_array);
+			} catch (Exception $e) {
+				$this->debug["templateEngine"] = $e->getMessage();
 				$this->fourofour();
 			}
-			
-			// Remove prefix from URI
-			$uri = str_replace($this->config["url_prefix"],"",$uri);
-			
-			// Remove suffix from URI
-			$uri = str_replace($this->config["url_suffix"],"",$uri);
-		
-		
-			//creates an array from the rest of the URL
-			$array_uri = preg_split('[\\/]', $uri, -1, PREG_SPLIT_NO_EMPTY);
-			$this->uri_array = $array_uri;
 		}
+	}
+	public function getConfig() {
+		return $this->config;
+	}
+	
+	public function getController() {
+		return $this->controller;
+	}
+	
+	public function debug() {
+		if(ENVIRONMENT == "development") {
+			print_r($this->debug);
+			echo "<pre>";
+			print_r($this->getConfig());
+			echo "</pre>";
+		}
+	}
+	
+	private function fourofour($debug = "") {
+		
+		// Set the correct header
+		header('HTTP/1.0 404 Not Found');
+		
+		// First check if user has defined a custom 404 controller, otherwise we use the standard from Giraffe mvc
+		try {
+			$controller_404 = $this->loadController("error_404");
+		} catch (Exception $e) {
+			require_once(SYSTEM_PATH."/controllers/error_404.php");
+			$this->controller = new error_404();
+		}
+		
+		//$this->controller = $controller_404;
+		$this->controller->index();
+		exit;
+	}
+	
+	// It requires some variables to build this page, and if these are not defined, we could interrupt construction
+	private function analyseConfigValues() {
+		$config_values = array("theme", "auth", "base", "default_controller", "default_controller_clean_urls");
+		foreach ($config_values as $value) {
+ 			if(!isset($this->config[$value])) {
+				echo "Required config variables is missing, please check your database. Required variables: <br />";
+				print_r($config_values);
+				die();
+			}
+		}
+		 
+	}
+	
+	private function get_route($can_url) {
+		$value = "";
+		$can = $this->db->escape($can_url);
+		$result = $this->db->query("SELECT * FROM ".DB_PREFIX."routes WHERE route = '{$can}' AND active='1' AND site = '".$this->site_name."' ORDER BY route DESC LIMIT 1");
+		if (is_object($result)) {
+		$value = $result->fetch_object();
+		}
+		return $value;
 	}
 	
 	private function loadApplication() {
@@ -169,73 +235,6 @@ class Giraffe {
 		}
 		$controller = new $controller_name();
 		return $controller;
-	}
-
-	public function templateEngine() {
-		// If the load application throws an error, display the 404 page
-		try {
-			$this->loadApplication($this->uri_array);
-		} catch (Exception $e) {
-			$this->debug["templateEngine"] = $e->getMessage();
-			$this->fourofour();
-		}
-	}
-	public function getConfig() {
-		return $this->config;
-	}
-	
-	public function getController() {
-		return $this->controller;
-	}
-	
-	public function debug() {
-		if(ENVIRONMENT == "development") {
-			print_r($this->debug);
-			echo "<pre>";
-			print_r($this->getConfig());
-			echo "</pre>";
-		}
-	}
-	
-	private function fourofour($debug = "") {
-		
-		// Set the correct header
-		header('HTTP/1.0 404 Not Found');
-		
-		// First check if user has defined a custom 404 controller, otherwise we use the standard from Giraffe mvc
-		try {
-			$controller_404 = $this->loadController("error_404");
-		} catch (Exception $e) {
-			require_once(SYSTEM_PATH."/controllers/error_404.php");
-			$this->controller = new error_404();
-		}
-		
-		//$this->controller = $controller_404;
-		$this->controller->index();
-		exit;
-	}
-	
-	// It requires some variables to build this page, and if these are not defined, we could interrupt construction
-	private function analyseConfigValues() {
-		$config_values = array("theme", "auth", "base", "default_controller", "default_controller_clean_urls");
-		foreach ($config_values as $value) {
- 			if(!isset($this->config[$value])) {
-				echo "Required config variables is missing, please check your database. Required variables: <br />";
-				print_r($config_values);
-				die();
-			}
-		}
-		 
-	}
-	
-	private function get_route($can_url) {
-		$value = "";
-		$can = $this->db->escape($can_url);
-		$result = $this->db->query("SELECT * FROM ".DB_PREFIX."routes WHERE route = '{$can}' AND active='1' AND site = '".$this->site_name."' ORDER BY route DESC LIMIT 1");
-		if (is_object($result)) {
-		$value = $result->fetch_object();
-		}
-		return $value;
 	}
 }
 ?>
