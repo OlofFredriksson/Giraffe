@@ -157,7 +157,7 @@ class Giraffe {
 	
 	// It requires some variables to build this page, and if these are not defined, we could interrupt construction
 	private function analyseConfigValues() {
-		$config_values = array("theme", "auth", "base", "default_controller", "default_controller_clean_urls");
+		$config_values = array("theme", "auth", "base", "default_controller", "default_controller_clean_urls","url_suffix","url_prefix","url");
 		foreach ($config_values as $value) {
  			if(!isset($this->config[$value])) {
 				echo "Required config variables is missing, please check your database. Required variables: <br />";
