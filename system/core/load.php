@@ -18,12 +18,16 @@ class Load {
 		extract($this->cached_vars);
 		require(SITE_PATH.'/themes/'.get_siteInfo("theme").'/'.$view.'.php');
 	}
-	public function model($model,$name = "") {
+	public function model($model, $name = "", $path = "") {
 		if(empty($name)) {
 			$name = $model;
 		}
-		
-		$path = strtolower(SITE_PATH."/models/".$model.".php");
+		if(!empty($path)) {
+			$path = strtolower($path.$model.".php");
+		}
+		else {
+			$path = strtolower(SITE_PATH."/models/".$model.".php");
+		}
 		if(!file_exists($path)) {
 			echo $path;
 			die('Model does not exist');
