@@ -52,7 +52,7 @@ class Cms {
 	}
 	
 	public function create_post_empty($id_user) {
-		$query = "INSERT INTO ".DB_PREFIX."post (idUser) VALUES ('".$id_user."')";
+		$query = "INSERT INTO ".DB_PREFIX."post (idUser,date) VALUES ('".$id_user."',NOW())";
 		return $this->db->insert($query);
 	}
 
