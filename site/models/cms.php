@@ -1,14 +1,15 @@
 <?php
 class Cms {
-
+	private $db;
 	function __construct() {
+		$this->db = Database::Instance();
 	}
 	public function get_post($slug) {
-		$db = Database::Instance();
+		
 		$post = array();
-		$slug = $db->escape($slug);
+		$slug = $this->db->escape($slug);
 		$query = "SELECT * FROM ".DB_PREFIX."post WHERE slug = '".$slug."'";
-		$result = $db->get_results($query);
+		$result = $this->db->get_results($query);
 		if(!$result->num_rows == 1) {
 			throw new Exception('Post with slug '.$slug.' is not found');
 		}
@@ -19,5 +20,16 @@ class Cms {
 		$post["date"] = $row->date;
 		return $post;
 	}
+	
+	public function get_post_list() {
+		$query = "SELECT * FROM ".DB_PREFIX."post";
+		return $this->db->query($query);
+	}
+	
+	public function create_post_empty($id_user) {
+		$query = "INSERT INTO ".DB_PREFIX."post (idUser) VALUES ('".$id_user."')";
+		return $this->db->insert($query);
+	}
+
 }
 ?>
