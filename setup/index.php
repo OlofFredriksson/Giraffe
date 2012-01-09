@@ -14,6 +14,9 @@ $database_path = '../system/core/database.php';
 
 // Quick check if table's already exists..
 function check_database($db) {
+	if(DB_PREFIX == "") {
+		die('<span class="red">DB_PREFIX cant be empty, please fix that in your config.php</span>');
+	}
 	$query = "SHOW TABLES";
 	$result = $db->query($query);
 	$count = 0;
@@ -21,7 +24,11 @@ function check_database($db) {
 	while($row = $result->fetch_array()) {
 		array_push($rows,$row[$count]);
 	}
-	return $rows;
+	foreach($rows as $row) {
+		if(starts_with($row,DB_PREFIX)) {
+			die('<span class="red">Tables with same prefix ("'.DB_PREFIX.'") already exists... Setup aborted</span>');
+		}
+	}
 
 }
 
@@ -60,12 +67,7 @@ if(isset($_POST["url"])) {
 	
 	
 	// Before we start, just check so table's already exists with that prefix
-	$rows = check_database($db);
-	foreach($rows as $row) {
-			if(starts_with($row,DB_PREFIX)) {
-				die('<span class="red">Tables with same prefix ("'.DB_PREFIX.'") already exists...</span>');
-			}
-	}
+	check_database($db);
 	$query = "
 	CREATE TABLE IF NOT EXISTS `".DB_PREFIX."menu` (
 	  `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -169,14 +171,9 @@ if(isset($_POST["url"])) {
 			echo '<span class="green">Working!</span>';
 		}
 		echo '<h3>Step 3: Check database</h3>';
-		$rows = check_database($db);
-		print_r($rows);
-		foreach($rows as $row) {
-			if(starts_with($row,DB_PREFIX)) {
-				die('<span class="red">Tables with same prefix ("'.DB_PREFIX.'") already exists... Setup aborted</span>');
-			}
-		}
-		echo '<br />Lets begin to create table\'s and import data! Before you press start, be sure that you have typed the right data. <br /><input type="submit" value="Save" />';
+		check_database($db);
+		
+		echo '<br />Lets begin to create table\'s and import data! Before you press start, be sure that you have typed the right data. <br /><input type="submit" value="Install site" />';
 	} else {
 		echo '<span class="red">File is missing!</span>';
 	}

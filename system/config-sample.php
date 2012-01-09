@@ -13,7 +13,7 @@ define('DB_USER', 'Database user');
 // Database password
 define('DB_PASSWORD', 'Database password');
 
-// Database prefix
+// Database prefix, CANT BE EMPTY
 define('DB_PREFIX', 'giff_');
 
 # 2 GENERAL
