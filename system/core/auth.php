@@ -58,5 +58,17 @@ class Auth {
 		$query = "INSERT INTO ".DB_PREFIX."users (username, password, email, real_name, created) VALUES ('".$username."', '".$salted_password."', '".$email."', '".$real_name."', NOW())";
 		return $this->db->query($query);
 	}
+	
+	public function getUsername($id) {
+		$name = "";
+		$query = "SELECT * FROM ".$this->prefix."users WHERE id = '".$id."' LIMIT 1";
+		$result = $this->db->query($query);
+		
+		if($result->num_rows == 1) {
+			$user = $result->fetch_assoc();
+			$name = $user["username"];
+		}
+		return $name;
+	}
 }
 ?>
