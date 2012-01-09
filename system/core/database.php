@@ -12,6 +12,11 @@ class Database {
 			die("<h2>Database connection failed, please check if your system/config.php is correct. Mysql Error: ".$this->db->connect_error."</h2>");
 		}
 		
+		// For older php-versions
+		if (mysqli_connect_error()) {
+			die("<h2>Database connection failed, please check if your system/config.php is correct. Mysql Error: ".mysqli_connect_errno());
+		}
+		
 		// Force database to communicate with UTF-8 as charset
 		$this->db->set_charset('utf8');
 	}
