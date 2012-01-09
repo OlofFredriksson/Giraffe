@@ -21,6 +21,23 @@ class Cms {
 		return $post;
 	}
 	
+	public function get_post_with_id($id) {
+		
+		$post = array();
+		$slug = $this->db->escape($slug);
+		$query = "SELECT * FROM ".DB_PREFIX."post WHERE id = '".$id."'";
+		$result = $this->db->get_results($query);
+		if(!$result->num_rows == 1) {
+			throw new Exception('Post with slug '.$slug.' is not found');
+		}
+		$row = $result->fetch_object();
+		$post["title"] = $row->title;
+		$post["content"] = $row->content;
+		$post["id"] = $row->id;
+		$post["date"] = $row->date;
+		return $post;
+	}
+	
 	public function get_post_list() {
 		$query = "SELECT * FROM ".DB_PREFIX."post";
 		return $this->db->query($query);
