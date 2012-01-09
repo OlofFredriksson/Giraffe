@@ -38,6 +38,11 @@ class Database {
 		return $this->lastQuery;
 	}
 	
+	public function insert($query) {
+		$this->lastQuery = $this->db->query($query) or die($this->db->error);
+		return $this->db->insert_id;
+	}
+	
 	public function escape($value) {
 		return $this->db->real_escape_string($value);
 	}
