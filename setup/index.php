@@ -60,6 +60,9 @@ if(isset($_POST["url"])) {
 	$title = $db->escape($_POST["title"]);
 	$sub_title = $db->escape($_POST["sub_title"]);
 	$base = $db->escape($_POST["base"]);
+	$url_prefix = $db->escape($_POST["url_prefix"]);
+	$url_suffix = $db->escape($_POST["url_suffix"]);
+	
 	$username = $db->escape($_POST["username"]);
 	$password = $db->escape($_POST["password"]);
 	$real_name = $db->escape($_POST["real_name"]);
@@ -90,8 +93,8 @@ if(isset($_POST["url"])) {
 	('base', '".$base."', 'default'),
 	('theme', 'default', 'default'),
 	('title', '".$title."', 'default'),
-	('url_suffix', '', 'default'),
-	('url_prefix', '', 'default'),
+	('url_suffix', '".$url_suffix."', 'default'),
+	('url_prefix', '".$url_prefix."', 'default'),
 	('url', '".$url."', 'default'),
 	('sub_title', '".$sub_title."', 'default'),
 	('master_site', '".$url."', ''),
@@ -102,7 +105,7 @@ if(isset($_POST["url"])) {
 	('default_controller', 'dashboard', 'admin'),
 	('default_controller_clean_urls', '', 'admin'),
 	('url_suffix', '', 'admin'),
-	('url_prefix', '', 'admin'),
+	('url_prefix', '".$url_prefix."', 'admin'),
 	('url', '".$url."/admin', 'admin'),
 	('auth', 'login', 'admin');
 
@@ -149,6 +152,11 @@ if(isset($_POST["url"])) {
 	<input type="text" value="<?php echo get_base(); ?>" name="base" /> Base - (Only if you put your site under domain.com/path/subpath/, base is 'path/subpath/' If not empty, end with a slash!<br />
 	<input type="text" name="title" /> Site title <br />
 	<input type="text" name="sub_title" /> sub_title <br />
+	
+	<h4>Optional (Only change this if you know what you do)</h4>
+	<input type="text" value="" name="url_prefix" /> Prefix (If mod_rewrite on server, change this to index.php/)<br />
+	<input type="text" value="" name="url_suffix" /> Suffix<br /> 
+	
 	<h4>Admin</h4>
 	<input type="text" value="" name="username" /> Username<br />
 	<input type="text" value="" name="password" /> Password<br />
