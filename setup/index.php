@@ -1,5 +1,6 @@
 <html>
 <head>
+	<link href="style.css" rel="stylesheet" type="text/css">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Giraffe install</title>
 </head>
@@ -10,9 +11,6 @@ require_once("../system/core/auth.php");
 $config_path = '../system/config.php';
 $database_path = '../system/core/database.php';
 
-function curPageName() {
- return substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+1);
-}
 
 // Quick check if table's already exists..
 function check_database($db) {
@@ -42,6 +40,9 @@ function get_domain() {
 		return $url;
 	}
 
+function get_base() {
+	return substr(substr($_SERVER["REQUEST_URI"],1),6);
+}
 
 require_once($database_path);
 if(isset($_POST["url"])) {
@@ -62,7 +63,7 @@ if(isset($_POST["url"])) {
 	$rows = check_database($db);
 	foreach($rows as $row) {
 			if(starts_with($row,DB_PREFIX)) {
-				die('<span style="color:red;font-weight:bold;">Tables with same prefix ("'.DB_PREFIX.'") already exists...</span>');
+				die('<span class="red">Tables with same prefix ("'.DB_PREFIX.'") already exists...</span>');
 			}
 	}
 	$query = "
@@ -142,15 +143,15 @@ if(isset($_POST["url"])) {
 <p>Not as fast as it could be..</p>
 <form method="post">
 	<h4>Site info</h4>
-	<input type="text" size="40" value="<?php echo get_domain(); ?>" name="url" /> Url  <strong>Dont add a slash '/' at the end</strong><br />
-	<input type="text" size="40" name="base" /> Base - (If you put your site under domain.com/path/subpath/, base is 'path/subpath/' <br />
-	<input type="text" size="40" name="title" /> Site title <br />
-	<input type="text" size="40" name="sub_title" /> sub_title <br />
+	<input type="text" value="<?php echo get_domain(); ?>" name="url" /> Url  <strong>Dont add a slash '/' at the end</strong><br />
+	<input type="text" value="<?php echo get_base(); ?>" name="base" /> Base - (If you put your site under domain.com/path/subpath/, base is 'path/subpath/' <br />
+	<input type="text" name="title" /> Site title <br />
+	<input type="text" name="sub_title" /> sub_title <br />
 	<h4>Admin</h4>
-	<input type="text" size="40" value="" name="username" /> Username<br />
-	<input type="text" size="40" value="" name="password" /> Password<br />
-	<input type="text" size="40" value="" name="real_name" /> Real name<br />
-	<input type="text" size="40" value="" name="email" /> Email<br />
+	<input type="text" value="" name="username" /> Username<br />
+	<input type="text" value="" name="password" /> Password<br />
+	<input type="text" value="" name="real_name" /> Real name<br />
+	<input type="text" value="" name="email" /> Email<br />
 	<h2>Install</h2>
 	<h3>Step 1: Create config file</h3>
 	<ul>
@@ -165,19 +166,19 @@ if(isset($_POST["url"])) {
 		echo "Checking database connection...";
 		require_once($config_path);
 		if($db = Database::instance()) {
-			echo '<span style="color:green;font-weight:bold;">Working!</span>';
+			echo '<span class="green">Working!</span>';
 		}
 		echo '<h3>Step 3: Check database</h3>';
 		$rows = check_database($db);
 		print_r($rows);
 		foreach($rows as $row) {
 			if(starts_with($row,DB_PREFIX)) {
-				die('<span style="color:red;font-weight:bold;">Tables with same prefix ("'.DB_PREFIX.'") already exists...</span>');
+				die('<span class="red">Tables with same prefix ("'.DB_PREFIX.'") already exists...</span>');
 			}
 		}
 		echo '<br />Lets begin to create table\'s and import data! Before you press start, be sure that you have typed the right data. <br /><input type="submit" value="Save" />';
 	} else {
-		echo '<span style="color:red;font-weight:bold;">File is missing!</span>';
+		echo '<span class="red">File is missing!</span>';
 	}
 	?>
 </form>

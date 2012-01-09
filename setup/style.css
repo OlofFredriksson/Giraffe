@@ -1,0 +1,13 @@
+input {
+	width: 350px;
+	margin: 5px;
+}
+.red {
+	color: red;
+	font-weight: bold;
+	font-size: 110%;
+}
+.green {
+	color: green;
+	font-weight:bold;
+}
