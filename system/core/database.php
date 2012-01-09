@@ -38,6 +38,11 @@ class Database {
 		return $this->lastQuery;
 	}
 	
+	public function multiQuery($query) {
+		$this->db->multi_query($query);
+		do {
+			} while ($this->db->next_result());
+	}
 	public function insert($query) {
 		$this->lastQuery = $this->db->query($query) or die($this->db->error);
 		return $this->db->insert_id;
