@@ -24,8 +24,8 @@ $url = get_siteInfo("url");
 				</div>
 			</div><!-- /clearfix -->
 				<div style="width:200px;height:35px;float:right;text-align:right;">
-					<a href="javascript:;" class="btn small info" onclick="tinyMCE.get('elm1').show();return false;">Visual</a>
-					<a href="javascript:;" class="btn small info" onclick="tinyMCE.get('elm1').hide();return false;">Code</a>
+					<a href="javascript:;" class="btn small info" onclick="tinyMCE.execCommand('mceAddControl', false, 'elm1');return false;">Visual</a>
+					<a href="javascript:;" class="btn small info" onclick="tinyMCE.execCommand('mceRemoveControl', false, 'elm1');return false;">Code</a>
 				</div>
 				<br style="clear:both;"/>
 				<div>

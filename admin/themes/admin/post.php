@@ -30,7 +30,10 @@ global $giraffe;
 							<td><?php echo $row["title"]; ?></td>
 							<td><?php echo $giraffe->auth->getUsername($row["idUser"]); ?></td>
 							<td><?php echo $row["date"]; ?></td>
-							<td><a href="/<?php the_siteinfo("base"); ?>post/edit/<?php echo $row["id"]; ?>" title="Edit post">Edit</a></td>
+							<td>
+								<a href="/<?php the_siteinfo("base"); ?>post/edit/<?php echo $row["id"]; ?>" title="Edit post">Edit</a>
+								<a href="/<?php the_siteinfo("base"); ?>post/delete/<?php echo $row["id"]; ?>" onclick="return confirm('Do you really want to delete this post?')" title="Delete post">X</a>
+							</td>
 						</tr>
 						<?php
 					}

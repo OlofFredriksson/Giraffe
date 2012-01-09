@@ -55,6 +55,11 @@ class Cms {
 		$query = "INSERT INTO ".DB_PREFIX."post (idUser,date) VALUES ('".$id_user."',NOW())";
 		return $this->db->insert($query);
 	}
+	
+	public function delete_post($id) {
+		$query = "DELETE FROM ".DB_PREFIX."post WHERE id = '".$id."' LIMIT 1 ";
+		return $this->db->insert($query);
+	}
 
 }
 ?>

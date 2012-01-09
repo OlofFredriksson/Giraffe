@@ -2,24 +2,34 @@
 class post extends Controller {
 	private $giraffe;
 	private $data = array();
-	function __construct() {
+	public function __construct() {
 		parent::__construct();
 		global $giraffe;
 		$this->giraffe = $giraffe;
 		$this->data["header_inner"] = "";
+		
+		// We assume that they have not changed the file path.
 		$this->load->model("Cms","cms",PATH."/../site/models/");
 	}
 
-	function index() {
+	public function index() {
 		$this->data["site_title"] = "Post";
 		$this->data["post_list"] = $this->cms->get_post_list();
 		$this->load->view('post',$this->data);
 	}
-	function create() {
+	public function create() {
 		$post_id = $this->cms->create_post_empty($_SESSION["auth_id"]);
 		$this->giraffe->request_handler->forwardTo("post/edit/".$post_id);
 	}
-	function edit($id = "") {
+	
+	public function delete($id = "") {
+		if(isset($id) && is_numeric($id) && $this->giraffe->auth->isLoggedIn()) {
+			$this->cms->delete_post($id);
+			$this->giraffe->request_handler->forwardTo("post/");
+		}
+	}
+	
+	public function edit($id = "") {
 		if(isset($_POST["id"]) && is_numeric($_POST["id"])) {
 			$this->cms->update_post($_POST["id"],$_POST["title"],$_POST["slug"],$_POST["content"]);
 			$this->giraffe->request_handler->forwardTo("post/edit/".$_POST["id"]);
@@ -43,9 +53,6 @@ class post extends Controller {
 		theme_advanced_toolbar_align : "left",
 		theme_advanced_statusbar_location : "bottom",
 		theme_advanced_resizing : true,
-
-		// Example content CSS (should be your site CSS)
-		content_css : "css/content.css",
 
 		// Drop lists for link/image/media/template dialogs
 		template_external_list_url : "lists/template_list.js",

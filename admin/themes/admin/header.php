@@ -4,6 +4,9 @@ global $giraffe;
 <!DOCTYPE html>
 <html>
 	<head>
+		<script type="text/javascript" src="<?php the_siteInfo("theme_url"); ?>/includes/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript">
+		</script>
 		<link href="<?php the_siteInfo("theme_url"); ?>/twitter-bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css">
 		<style type="text/css">
 			body {
