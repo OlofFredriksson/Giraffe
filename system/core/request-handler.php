@@ -21,7 +21,7 @@ class RequestHandler {
 			break;
 		}
 		if(!preg_match("/^https?:\/\//i",$url)) {
-			$url = get_siteInfo("url")."/".$url;
+			$url = $this->site_url($url);
 		}
 			header('Location:'.$url);
 			exit();
@@ -39,6 +39,10 @@ class RequestHandler {
 		}
 
 		return $url;
+	}
+	
+	public function site_url($uri) {
+		return get_siteInfo("url")."/".$uri;
 	}
 }
 ?>
