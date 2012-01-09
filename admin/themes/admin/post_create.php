@@ -23,8 +23,11 @@ $url = get_siteInfo("url");
 					<input class="xlarge" name="slug" value="<?php echo $post["slug"];?>" size="30" type="text" />
 				</div>
 			</div><!-- /clearfix -->
-				<a href="javascript:;" onclick="tinyMCE.get('elm1').show();return false;">Visual</a>
-				<a href="javascript:;" onclick="tinyMCE.get('elm1').hide();return false;">Code</a>
+				<div style="width:200px;height:35px;float:right;text-align:right;">
+					<a href="javascript:;" class="btn small info" onclick="tinyMCE.get('elm1').show();return false;">Visual</a>
+					<a href="javascript:;" class="btn small info" onclick="tinyMCE.get('elm1').hide();return false;">Code</a>
+				</div>
+				<br style="clear:both;"/>
 				<div>
 					<textarea id="elm1" name="content" rows="15" cols="80" style="width: 100%">
 						<?php echo $post["content"];?>
