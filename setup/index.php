@@ -41,7 +41,7 @@ function get_domain() {
 	}
 
 function get_base() {
-	return substr(substr($_SERVER["REQUEST_URI"],1),6);
+	return substr(substr($_SERVER["REQUEST_URI"],1),0,-6);
 }
 
 require_once($database_path);
