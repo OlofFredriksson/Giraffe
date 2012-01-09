@@ -12,6 +12,7 @@ global $giraffe;
 		</style>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title><?php echo $site_title; ?></title>
+		<?php if(isset($header_inner)) { echo $header_inner; }?>
 	</head>
 	<body>
 	<div class="topbar">

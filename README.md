@@ -14,3 +14,6 @@ TBD
 ### Bootstrap
 Copyright 2011 Twitter, Inc.
 Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
+
+### Tinymce
+LGPL: http://www.tinymce.com/wiki.php/License
