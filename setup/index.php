@@ -147,22 +147,7 @@ if(isset($_POST["url"])) {
 <h1>Giraffe fast installer</h1>
 <p>Not as fast as it could be..</p>
 <form method="post">
-	<h4>Site info</h4>
-	<input type="text" value="<?php echo get_domain(); ?>" name="url" /> Url (<strong>Dont add a slash '/' at the end</strong>) For example: http://domain.com or http://www.domain.com/subpath<br />
-	<input type="text" value="<?php echo get_base(); ?>" name="base" /> Base - (Only if you put your site under domain.com/path/subpath/, base is 'path/subpath/' If not empty, end with a slash!<br />
-	<input type="text" name="title" /> Site title <br />
-	<input type="text" name="sub_title" /> sub_title <br />
-	
-	<h4>Optional (Only change this if you know what you do)</h4>
-	<input type="text" value="" name="url_prefix" /> Prefix (If mod_rewrite on server, change this to index.php/)<br />
-	<input type="text" value="" name="url_suffix" /> Suffix<br /> 
-	
-	<h4>Admin</h4>
-	<input type="text" value="" name="username" /> Username<br />
-	<input type="text" value="" name="password" /> Password<br />
-	<input type="text" value="" name="real_name" /> Real name<br />
-	<input type="text" value="" name="email" /> Email<br />
-	<h2>Install</h2>
+		<h2>Install</h2>
 	<h3>Step 1: Create config file</h3>
 	<ul>
 		<li>Copy system/config-sample.php to system/config.php</li>
@@ -181,7 +166,26 @@ if(isset($_POST["url"])) {
 		echo '<h3>Step 3: Check database</h3>';
 		check_database($db);
 		
-		echo '<br />Lets begin to create table\'s and import data! Before you press start, be sure that you have typed the right data. <br /><input type="submit" value="Install site" />';
+		echo '<br />Lets begin to create table\'s and import data! Before you press start, be sure that you have typed the right data. <br />';
+		
+	?>
+	<h4>Site info</h4>
+	<input type="text" value="<?php echo get_domain(); ?>" name="url" /> Url (<strong>Dont add a slash '/' at the end</strong>) For example: http://domain.com or http://www.domain.com/subpath<br />
+	<input type="text" value="<?php echo get_base(); ?>" name="base" /> Base - (Only if you put your site under domain.com/path/subpath/, base is 'path/subpath/' If not empty, end with a slash!<br />
+	<input type="text" name="title" /> Site title <br />
+	<input type="text" name="sub_title" /> sub_title <br />
+	
+	<h4>Optional (Only change this if you know what you do)</h4>
+	<input type="text" value="" name="url_prefix" /> Prefix (If mod_rewrite on server, change this to index.php/)<br />
+	<input type="text" value="" name="url_suffix" /> Suffix<br /> 
+	
+	<h4>Admin</h4>
+	<input type="text" value="" name="username" /> Username<br />
+	<input type="text" value="" name="password" /> Password<br />
+	<input type="text" value="" name="real_name" /> Real name<br />
+	<input type="text" value="" name="email" /> Email<br />
+	<input type="submit" value="Install site" />
+	<?php
 	} else {
 		echo '<span class="red">File is missing!</span>';
 	}
