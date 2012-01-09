@@ -143,8 +143,8 @@ if(isset($_POST["url"])) {
 <p>Not as fast as it could be..</p>
 <form method="post">
 	<h4>Site info</h4>
-	<input type="text" value="<?php echo get_domain(); ?>" name="url" /> Url  <strong>Dont add a slash '/' at the end</strong><br />
-	<input type="text" value="<?php echo get_base(); ?>" name="base" /> Base - (If you put your site under domain.com/path/subpath/, base is 'path/subpath/' <br />
+	<input type="text" value="<?php echo get_domain(); ?>" name="url" /> Url (<strong>Dont add a slash '/' at the end</strong>) For example: http://domain.com or http://www.domain.com/subpath<br />
+	<input type="text" value="<?php echo get_base(); ?>" name="base" /> Base - (Only if you put your site under domain.com/path/subpath/, base is 'path/subpath/' If not empty, end with a slash!<br />
 	<input type="text" name="title" /> Site title <br />
 	<input type="text" name="sub_title" /> sub_title <br />
 	<h4>Admin</h4>
@@ -173,7 +173,7 @@ if(isset($_POST["url"])) {
 		print_r($rows);
 		foreach($rows as $row) {
 			if(starts_with($row,DB_PREFIX)) {
-				die('<span class="red">Tables with same prefix ("'.DB_PREFIX.'") already exists...</span>');
+				die('<span class="red">Tables with same prefix ("'.DB_PREFIX.'") already exists... Setup aborted</span>');
 			}
 		}
 		echo '<br />Lets begin to create table\'s and import data! Before you press start, be sure that you have typed the right data. <br /><input type="submit" value="Save" />';
