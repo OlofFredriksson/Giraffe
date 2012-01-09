@@ -1,3 +1,6 @@
+<?php
+global $giraffe;
+?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -18,7 +21,10 @@
 				<ul class="nav">
 					<li><a href="<?php the_siteInfo("master_site"); ?>">Site index</a></li>
 				</ul>
-				<p class="pull-right">Logged in as <a href="#">username</a></p>
+				<?php if($giraffe->auth->isLoggedIn()) {
+					echo '<p class="pull-right">Logged in as <a href="#">'.$_SESSION["auth_username"].'</a> <a  style="margin-left:20px;" href="/admin/login/logout">Logout</a></p>';
+				}
+				?>
 			</div>
 		</div>
 	</div>

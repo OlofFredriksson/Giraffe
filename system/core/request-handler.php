@@ -5,7 +5,7 @@ class RequestHandler {
 	
 	}
 	
-	public function forwardTo($url, $status_code = 0){
+	public function forwardTo($url, $status_code = 302){
 	
 		switch($status_code) {
 			case 301:
@@ -19,6 +19,9 @@ class RequestHandler {
 			default:
 			
 			break;
+		}
+		if(!preg_match("/^https?:\/\//i",$url)) {
+			$url = get_siteInfo("url")."/".$url;
 		}
 			header('Location:'.$url);
 			exit();

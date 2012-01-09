@@ -2,13 +2,13 @@
 class Giraffe {
 
 	private static $giraffe;
-	private $request_handler;
 	private $controller;
 	private $site_name;
 	private $debug = array();
 	private $config;
 	private $theme;
-	public $uri = "dasd";
+	public $uri = "";
+	public $request_handler;
 	private $uri_array = array();
 	public $db;
 	public $header;
@@ -22,7 +22,7 @@ class Giraffe {
 		session_start();
 		
 		$this->db = Database::instance();
-		$this->auth = new Auth($this->db);
+		$this->auth = new Auth($this->db,DB_PREFIX);
 		$this->request_handler = new RequestHandler();
 		
 		// Get site options from database
