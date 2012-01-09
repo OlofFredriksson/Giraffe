@@ -2,9 +2,9 @@ MVC CMS for dv1207 at Blekinge Institute of Technology
 Inspired by Wordpress and Codeigniter
 =====================
 ## Requirements ##
--   Apache (Optional: Clean urls with mod_rewrite)
--   Php 5 
--   Mysql (mysqli)
+- Apache (Optional: Clean urls with mod_rewrite)
+- Php 5 
+- Mysql (mysqli)
 
 ## Install ##
 1. Copy system/config-sample.php to system/config.php
@@ -14,6 +14,9 @@ Inspired by Wordpress and Codeigniter
 5. Done!
 
 ## License ##
+
+## Giraffe MVC
+MIT
 
 ### Bootstrap
 Copyright 2011 Twitter, Inc.
