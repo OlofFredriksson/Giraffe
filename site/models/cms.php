@@ -36,14 +36,18 @@ class Cms {
 		$post["content"] = $row->content;
 		$post["id"] = $row->id;
 		$post["date"] = $row->date;
+		$post["meta_description"] = $row->meta_description;
+		$post["meta_keywords"] = $row->meta_keywords;
 		return $post;
 	}
-	public function update_post($id, $title,$slug,$content) {
+	public function update_post($id, $title,$slug,$content,$meta_description,$meta_keywords) {
 		$id = $this->db->escape($id);
 		$title = $this->db->escape($title);
 		$slug = $this->db->escape($slug);
 		$content = $this->db->escape($content);
-		$query = "UPDATE ".DB_PREFIX."post SET title = '".$title."', slug = '".$slug."', content = '".$content."' WHERE id = '".$id."' LIMIT 1";
+		$meta_description = $this->db->escape($meta_description);
+		$meta_keywords = $this->db->escape($meta_keywords);
+		$query = "UPDATE ".DB_PREFIX."post SET title = '".$title."', slug = '".$slug."', content = '".$content."', meta_description = '".$meta_description."', meta_keywords = '".$meta_keywords."' WHERE id = '".$id."' LIMIT 1";
 		return $this->db->query($query);
 	}
 	public function get_post_list() {

@@ -42,7 +42,7 @@ EOD;
 	
 	public function edit($id = "") {
 		if(isset($_POST["id"]) && is_numeric($_POST["id"])) {
-			$this->cms->update_post($_POST["id"],$_POST["title"],$_POST["slug"],$_POST["content"]);
+			$this->cms->update_post($_POST["id"],$_POST["title"],$_POST["slug"],$_POST["content"],$_POST["meta_description"],$_POST["meta_keywords"]);
 			$this->giraffe->request_handler->forwardTo("post/edit/".$_POST["id"]);
 		}
 		$this->data["post"] = $this->cms->get_post_with_id($id);

@@ -17,12 +17,28 @@ $url = get_siteInfo("url");
 				<input class="xlarge" name="title" size="30" value="<?php echo $post["title"];?>" type="text" />
 			</div>
 			</div><!-- /clearfix -->
+			
 			<div class="clearfix">
 				<label for="xlInput">Slug</label>
 				<div class="input">
 					<input class="xlarge" name="slug" value="<?php echo $post["slug"];?>" size="30" type="text" />
 				</div>
 			</div><!-- /clearfix -->
+			
+			<div class="clearfix">
+				<label for="xlInput">Meta description</label>
+				<div class="input">
+					<input class="xlarge" name="meta_description" value="<?php echo $post["meta_description"];?>" size="30" type="text" />
+				</div>
+			</div><!-- /clearfix -->
+			
+			<div class="clearfix">
+				<label for="xlInput">Meta keywords</label>
+				<div class="input">
+					<input class="xlarge" name="meta_keywords" value="<?php echo $post["meta_keywords"];?>" size="30" type="text" />
+				</div>
+			</div><!-- /clearfix -->
+			
 				<div style="width:200px;height:35px;float:right;text-align:right;">
 					<a href="javascript:;" class="btn small info" onclick="tinyMCE.execCommand('mceAddControl', false, 'elm1');return false;">Visual</a>
 					<a href="javascript:;" class="btn small info" onclick="tinyMCE.execCommand('mceRemoveControl', false, 'elm1');return false;">Code</a>
