@@ -42,7 +42,7 @@ class RequestHandler {
 	}
 	
 	public function site_url($uri) {
-		return get_siteInfo("url")."/".$uri;
+		return get_siteInfo("url")."/".get_siteInfo("url_prefix").$uri.get_siteInfo("url_suffix");
 	}
 }
 ?>
