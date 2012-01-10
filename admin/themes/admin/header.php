@@ -26,7 +26,7 @@ global $giraffe;
 					<li><a href="<?php the_siteInfo("master_site"); ?>">Site index</a></li>
 				</ul>
 				<?php if($giraffe->auth->isLoggedIn()) {
-					echo '<p class="pull-right">Logged in as <a href="#">'.$_SESSION["auth_username"].'</a> <a  style="margin-left:20px;" href="/admin/login/logout">Logout</a></p>';
+					echo '<p class="pull-right">Logged in as <a href="#">'.$_SESSION["auth_username"].'</a> <a  style="margin-left:20px;" href="'.$giraffe->request_handler->site_url("login/logout").'">Logout</a></p>';
 				}
 				?>
 			</div>
