@@ -11,7 +11,7 @@ global $giraffe;
 			<h2>Posts</h2>
 			<p>Create new articles, or edit existing posts.</p>
 			<p><a class="btn primary" href="<?php echo $url;?>/post/create">Create new post &raquo;</a></p>
-			<table class="bordered-table zebra-striped">
+			<table id="post_table" class="bordered-table zebra-striped">
 				<thead>
 					<tr>
 						<th>Id</th>

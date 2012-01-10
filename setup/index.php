@@ -74,12 +74,14 @@ if(isset($_POST["url"])) {
 	$query = "
 	CREATE TABLE IF NOT EXISTS `".DB_PREFIX."menu` (
 	  `id` int(11) NOT NULL AUTO_INCREMENT,
+	  `menu_group` int(11) NOT NULL,
+	  `menu_priority` int(11) NOT NULL,
 	  `title` varchar(55) NOT NULL,
 	  `url` varchar(100) NOT NULL,
 	  `anchor` varchar(55) NOT NULL,
-	  `type` varchar(20) NOT NULL,
+	  `site` varchar(55) NOT NULL,
 	  PRIMARY KEY (`id`)
-	) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+	) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 	CREATE TABLE IF NOT EXISTS `".DB_PREFIX."options` (
 	  `option_key` varchar(55) NOT NULL,

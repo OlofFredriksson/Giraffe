@@ -2,7 +2,7 @@
 $this->load->view("header");
 ?>
 
-<div><?php list_navbar(); ?></div>
+<div><?php list_navbar("default",""); ?></div>
 <h1><?php echo $h1; ?></h1>
 
 <?php

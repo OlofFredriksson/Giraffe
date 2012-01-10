@@ -60,11 +60,12 @@ function base_url() {
 }
 
 
-function list_navbar($type = "") {
+function list_navbar($site,$group) {
 	global $giraffe;
-	$type = $giraffe->db->escape($type);
+	$site = $giraffe->db->escape($site);
+	$group = $giraffe->db->escape($group);
 	$menu = "<ul>";
-	$query = "SELECT * FROM ".DB_PREFIX."menu WHERE type = '".$type."'";
+	$query = "SELECT * FROM ".DB_PREFIX."menu WHERE site = '".$site."' AND menu_group = '".$group."' ORDER BY menu_priority DESC";
 	$result = $giraffe->db->get_results($query);
 	while ($row = $result->fetch_object()) {
 		$menu .= '<li><a href="'.$row->url.'" title="'.$row->anchor.'">'.$row->title.'</a></li>';

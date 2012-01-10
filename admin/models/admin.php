@@ -28,5 +28,59 @@ class Admin {
 		$sql = "UPDATE ".DB_PREFIX."options SET option_value = '".$value."' WHERE option_key = '".$key."' AND site = '".$this->site_name."'";
 		$query = $this->db->query($sql);
 	}
+	
+	public function get_menu_table($site = "") {
+		if(!empty($site)) {
+			$site = $this->db->escape($site);
+			$sql = "SELECT * FROM ".DB_PREFIX."menu WHERE site = '".$site."'";
+		}
+		else {
+			$sql = "SELECT * FROM ".DB_PREFIX."menu ";
+		}
+		return $this->db->query($sql);
+	}
+	
+	public function create_link_empty() {
+		$query = "INSERT INTO ".DB_PREFIX."menu () VALUES();";
+		return $this->db->insert($query);
+	}
+	
+	public function delete_link($id) {
+		$id = $this->db->escape($id);
+		$query = "DELETE FROM ".DB_PREFIX."menu WHERE id = '".$id."' LIMIT 1 ";
+		return $this->db->insert($query);
+	}
+	
+	public function update_link($id, $site, $title, $url, $anchor, $menu_group, $menu_priority) {
+		$id = $this->db->escape($id);
+		$site = $this->db->escape($site);
+		$title = $this->db->escape($title);
+		$url = $this->db->escape($url);
+		$anchor = $this->db->escape($anchor);
+		$menu_group = $this->db->escape($menu_group);
+		$menu_priority = $this->db->escape($menu_priority);
+		$query = "UPDATE ".DB_PREFIX."menu SET site = '".$site."', title = '".$title."', url = '".$url."', anchor = '".$anchor."', menu_group = '".$menu_group."', menu_priority = '".$menu_priority."' WHERE id = '".$id."' LIMIT 1";
+		return $this->db->query($query);
+	}
+	
+	public function get_link_with_id($id) {
+		
+		$link = array();
+		$id = $this->db->escape($id);
+		$query = "SELECT * FROM ".DB_PREFIX."menu WHERE id = '".$id."'";
+		$result = $this->db->get_results($query);
+		if(!$result->num_rows == 1) {
+			throw new Exception('Link with id '.$id.' is not found');
+		}
+		$row = $result->fetch_object();
+		$link["id"] = $row->id;
+		$link["site"] = $row->site;
+		$link["title"] = $row->title;
+		$link["url"] = $row->url;
+		$link["anchor"] = $row->anchor;
+		$link["menu_group"] = $row->menu_group;
+		$link["menu_priority"] = $row->menu_priority;
+		return $link;
+	}
 }
 ?>

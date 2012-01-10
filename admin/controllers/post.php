@@ -15,6 +15,17 @@ class post extends Controller {
 	public function index() {
 		$this->data["site_title"] = "Post";
 		$this->data["post_list"] = $this->cms->get_post_list();
+		$url = get_siteinfo("theme_url");
+		$this->data["header_inner"] = <<<EOD
+		<script type="text/javascript" src="$url/includes/jquery.tablesorter.min.js"></script> 
+		<script type="text/javascript">
+			$(document).ready(function()  { 
+				$("#post_table").tablesorter(); 
+			} 
+			); 
+		</script>
+
+EOD;
 		$this->load->view('post',$this->data);
 	}
 	public function create() {
