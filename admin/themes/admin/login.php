@@ -14,7 +14,7 @@ get_header();
 			<?php echo $info_bar; ?>
 			<?php if(!$giraffe->auth->isLoggedIn()) {
 			?>
-				<form method="post" action="/admin/login">
+				<form method="post" action="<?php echo $giraffe->request_handler->site_url("login"); ?>">
 					<div class="clearfix">
 						<div class="input-prepend">
 							<span class="add-on">Username</span>
