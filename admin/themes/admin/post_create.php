@@ -1,6 +1,7 @@
 <?php
 get_header();
 $url = get_siteInfo("url");
+global $giraffe;
 ?>
 <div class="container-fluid">
 	<?php get_sidebar(); ?>
@@ -9,7 +10,7 @@ $url = get_siteInfo("url");
 		<div class="span16">
 			<h2>Create post</h2>
 			<br style="clear:both;" />
-			<form method="post" action="/admin/post/edit" class="form-stacked">
+			<form method="post" action="<?php echo $giraffe->request_handler->site_url("post/edit"); ?>" class="form-stacked">
 			<input name="id" type="hidden" value="<?php echo $post["id"];?>"/>
 			<div class="clearfix">
 			<label for="xlInput3">Title</label>

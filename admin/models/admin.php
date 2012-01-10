@@ -82,5 +82,54 @@ class Admin {
 		$link["menu_priority"] = $row->menu_priority;
 		return $link;
 	}
+	
+	public function get_region_list($site = "") {
+		if(!empty($site)) {
+			$site = $this->db->escape($site);
+			$sql = "SELECT * FROM ".DB_PREFIX."region WHERE site = '".$site."'";
+		}
+		else {
+			$sql = "SELECT * FROM ".DB_PREFIX."region ";
+		}
+		return $this->db->query($sql);
+	}
+	
+		public function create_region_empty($site) {
+		$site = $this->db->escape($site);
+		$query = "INSERT INTO ".DB_PREFIX."region (site) VALUES('".$site."');";
+		return $this->db->insert($query);
+	}
+	
+	public function delete_region($id) {
+		$id = $this->db->escape($id);
+		$query = "DELETE FROM ".DB_PREFIX."region WHERE id = '".$id."' LIMIT 1 ";
+		return $this->db->insert($query);
+	}
+	
+	public function update_region($id, $site, $name, $content) {
+		$id = $this->db->escape($id);
+		$site = $this->db->escape($site);
+		$name = $this->db->escape($name);
+		$content = $this->db->escape($content);
+		$query = "UPDATE ".DB_PREFIX."region SET site = '".$site."', name = '".$name."', content = '".$content."' WHERE id = '".$id."' LIMIT 1";
+		return $this->db->query($query);
+	}
+	
+	public function get_region_with_id($id) {
+		
+		$region = array();
+		$id = $this->db->escape($id);
+		$query = "SELECT * FROM ".DB_PREFIX."region WHERE id = '".$id."'";
+		$result = $this->db->get_results($query);
+		if(!$result->num_rows == 1) {
+			throw new Exception('Region with id '.$id.' is not found');
+		}
+		$row = $result->fetch_object();
+		$region["id"] = $row->id;
+		$region["site"] = $row->site;
+		$region["name"] = $row->name;
+		$region["content"] = $row->content;
+		return $region;
+	}
 }
 ?>
