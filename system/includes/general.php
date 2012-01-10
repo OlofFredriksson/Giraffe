@@ -16,8 +16,8 @@ function get_siteInfo($value = "") {
 		case "sub_title":
 		case "title":
 		case "theme":
-		case "uri_prefix":
-		case "uri_suffix":
+		case "url_prefix":
+		case "url_suffix":
 		case "url":
 			$output = $config[$value];
 		break;
