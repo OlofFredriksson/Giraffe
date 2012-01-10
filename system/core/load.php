@@ -19,14 +19,15 @@ class Load {
 		require(SITE_PATH.'/themes/'.get_siteInfo("theme").'/'.$view.'.php');
 	}
 	public function model($model, $name = "", $path = "") {
+		$model = strtolower($model);
 		if(empty($name)) {
 			$name = $model;
 		}
 		if(!empty($path)) {
-			$path = strtolower($path.$model.".php");
+			$path = $path.$model.".php";
 		}
 		else {
-			$path = strtolower(SITE_PATH."/models/".$model.".php");
+			$path = SITE_PATH."/models/".$model.".php";
 		}
 		if(!file_exists($path)) {
 			echo $path;
