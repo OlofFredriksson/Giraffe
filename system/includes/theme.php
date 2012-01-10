@@ -14,8 +14,8 @@ function get_sidebar() {
 	global $giraffe;
 	$giraffe->getController()->load->view("sidebar");
 }
-// Not recommended to use, try to fix the loader instead!
-function get_region($region) {
+
+function get_file($file) {
 	global $giraffe;
 	$giraffe->getController()->load->view($region);
 }
