@@ -112,15 +112,19 @@ if(isset($_POST["url"])) {
 	('url', '".$url."/admin', 'admin'),
 	('auth', 'login', 'admin');
 
+	
 	CREATE TABLE IF NOT EXISTS `".DB_PREFIX."post` (
-	  `id` int(11) NOT NULL AUTO_INCREMENT,
-	  `title` varchar(100) NOT NULL,
-	  `slug` varchar(100) NOT NULL,
-	  `content` text NOT NULL,
-	  `date` datetime NOT NULL,
-	  `idUser` int(11) NOT NULL,
-	  PRIMARY KEY (`id`)
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`title` varchar(100) NOT NULL,
+	`slug` varchar(100) NOT NULL,
+	`content` text NOT NULL,
+	`date` datetime NOT NULL,
+	`idUser` int(11) NOT NULL,
+	`meta_description` varchar(180) NOT NULL,
+	`meta_keywords` varchar(200) NOT NULL,
+	PRIMARY KEY (`id`)
 	) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
 
 	CREATE TABLE IF NOT EXISTS `".DB_PREFIX."routes` (
 	  `site` varchar(55) NOT NULL,
