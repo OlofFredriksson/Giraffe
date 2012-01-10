@@ -21,7 +21,7 @@ $url = get_siteInfo("url");
 			<div class="clearfix">
 				<label for="xlInput">Slug</label>
 				<div class="input">
-					<input class="xlarge" name="slug" value="<?php echo $post["slug"];?>" size="30" type="text" />
+					<input class="xlarge" name="slug" value="<?php echo $post["slug"];?>" size="30" type="text" /><span class="help-inline">Actual url with prefix and suffix: <strong><?php echo $admin->config["url_prefix"]; ?>'slug'<?php echo $admin->config["url_suffix"]; ?></strong></span>
 				</div>
 			</div><!-- /clearfix -->
 			

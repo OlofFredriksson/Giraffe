@@ -10,6 +10,11 @@ class post extends Controller {
 		
 		// We assume that they have not changed the file path.
 		$this->load->model("Cms","cms",PATH."/../site/models/");
+		
+		$this->load->model("Admin","admin");
+		// We are pretty doomed if user changes the default site name
+		$this->admin->set_site_name("default");
+		$this->data["admin"] = $this->admin;
 	}
 
 	public function index() {
