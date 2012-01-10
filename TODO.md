@@ -1,1 +1,2 @@
 * Suffix/prefix problems when in adminpanel if mod_rewrite is disabled, for example domain.com/admin/index.php/login
+* Various duplicate content, like domain.com/slug and domain.com/page/show/slug if default_controller_clean_urls is active 
