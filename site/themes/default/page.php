@@ -1,17 +1,25 @@
 <?php
+global $giraffe;
 $this->load->view("header");
 ?>
-
-<div><?php list_navbar("default",""); ?></div>
 <h1><?php echo $h1; ?></h1>
+	<ul class="breadcrumb">
+		<?php list_navbar("default","top"); ?>
+	</ul>
 
-<?php
-if(isset($id)) {
-	echo "<p>Date: ".$post["date"]."</p>";
-	echo $post["content"];
-}
-else {
-	echo "Homepage";
-}
-get_footer();
-?> 
+<div class="row">
+	<div class="span10">
+		<?php
+		if(isset($id)) {
+			echo "<p>Date: ".$post["date"]."</p>";
+			echo $post["content"];
+		}
+		else {
+			echo "Home page";
+		}
+		?>
+	</div>
+	<?php
+	get_sidebar();
+	get_footer();
+	?> 

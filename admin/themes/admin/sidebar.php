@@ -9,6 +9,7 @@ $url = get_siteInfo("url");
 				<li><a href="<?php echo $url;?>/post">Posts</a></li>
 				<li><a href="<?php echo $url;?>/siteconfig">Site configuration</a></li>
 				<li><a href="<?php echo $url;?>/menuhandler">Menu handler</a></li>
+				<li><a href="<?php echo $url;?>/regions">Regions</a></li>
 			</ul>
 		</div>
 	</div>

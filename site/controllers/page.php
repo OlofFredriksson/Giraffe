@@ -5,6 +5,8 @@ class Page extends Controller {
 		parent::__construct();
 		$this->data["meta_description"] = "";
 		$this->data["meta_keywords"] = "";
+		$this->load->model("Cms","cms");
+		$this->data["post_list"] = $this->cms->get_post_list();
 	}
 
 	function index() {
@@ -16,7 +18,6 @@ class Page extends Controller {
 	function show($title = "") {
 		$this->data["id"] = $title;
 		$this->data["text"] = "Post ...";
-		$this->load->model("Cms","cms");
 		$this->data["post"] = $this->cms->get_post($title);
 		$this->data["h1"] = $this->data["post"]["title"];
 		$this->data["meta_description"] = $this->data["post"]["meta_description"];

@@ -14,7 +14,7 @@ h1 {
 h3 {
 	display:inline;
 }
-h3  a{
+h3  a, h3 a:hover{
 	font-family: 'Cabin Condensed', sans-serif;
 	color: #FF3399;
 	font-size: 45px;
@@ -38,15 +38,7 @@ p {
 	margin: 0 auto;
 }
 
-#container {
-	border-radius: 20px; 
-	width: 800px;
-	padding: 20px;
-	background-color: #FFFFFF;
-	margin: 0 auto;
-	margin-top: 15px;
-	margin-bottom: 15px;
-}
+
 #menu {
 	background-color: #E8E8E8;
 	float: right;
@@ -54,7 +46,14 @@ p {
 	border-radius: 20px;
 }
 #footerContainer {
+	padding-top: 20px;
 	width: 400px;
 	text-align: center;
 	margin: 0 auto;
+}
+
+.container {
+	border-radius: 20px; 
+	padding: 20px;
+	background-color: #FFFFFF;
 }
