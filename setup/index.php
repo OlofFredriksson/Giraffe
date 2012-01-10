@@ -73,15 +73,16 @@ if(isset($_POST["url"])) {
 	check_database($db);
 	$query = "
 	CREATE TABLE IF NOT EXISTS `".DB_PREFIX."menu` (
-	  `id` int(11) NOT NULL AUTO_INCREMENT,
-	  `menu_group` int(11) NOT NULL,
-	  `menu_priority` int(11) NOT NULL,
-	  `title` varchar(55) NOT NULL,
-	  `url` varchar(100) NOT NULL,
-	  `anchor` varchar(55) NOT NULL,
-	  `site` varchar(55) NOT NULL,
-	  PRIMARY KEY (`id`)
-	) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`menu_group` varchar(55) NOT NULL,
+	`menu_priority` int(11) NOT NULL,
+	`title` varchar(55) NOT NULL,
+	`url` varchar(100) NOT NULL,
+	`anchor` varchar(55) NOT NULL,
+	`site` varchar(55) NOT NULL,
+	PRIMARY KEY (`id`)
+	) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
 
 	CREATE TABLE IF NOT EXISTS `".DB_PREFIX."options` (
 	  `option_key` varchar(55) NOT NULL,
@@ -139,6 +140,16 @@ if(isset($_POST["url"])) {
 	`created` datetime NOT NULL,
 	PRIMARY KEY (`id`)
 	) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+	
+	CREATE TABLE IF NOT EXISTS `".DB_PREFIX."region` (
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`name` varchar(60) NOT NULL,
+	`site` varchar(55) NOT NULL,
+	`content` text NOT NULL,
+	PRIMARY KEY (`id`),
+	UNIQUE KEY `name` (`name`,`site`)
+	) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
 
 ";
 	$db->multiQuery($query);
