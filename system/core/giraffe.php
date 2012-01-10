@@ -37,8 +37,8 @@ class Giraffe {
 		
 		$query = $this->db->get_results($sql);
 		while ($row = $query->fetch_object()) {
-			if(!isset($this->config[$row->option])) {
-				$this->config[$row->option] = trim($row->value);
+			if(!isset($this->config[$row->option_key])) {
+				$this->config[$row->option_key] = trim($row->option_value);
 			}
 		}
 		// Before we begin to build the site, lets do a check so at least some of the variables is defined

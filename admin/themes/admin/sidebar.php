@@ -7,6 +7,7 @@ $url = get_siteInfo("url");
 			<ul>
 				<li><a href="<?php echo $url;?>">Start</a></li>
 				<li><a href="<?php echo $url;?>/post">Posts</a></li>
+				<li><a href="<?php echo $url;?>/siteconfig">Site configuration</a></li>
 			</ul>
 		</div>
 	</div>

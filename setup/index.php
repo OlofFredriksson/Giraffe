@@ -82,13 +82,13 @@ if(isset($_POST["url"])) {
 	) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 	CREATE TABLE IF NOT EXISTS `".DB_PREFIX."options` (
-	  `option` varchar(55) NOT NULL,
-	  `value` longtext NOT NULL,
+	  `option_key` varchar(55) NOT NULL,
+	  `option_value` longtext NOT NULL,
 	  `site` varchar(50) NOT NULL,
-	  UNIQUE KEY `option` (`option`,`site`)
+	  UNIQUE KEY `option` (`option_key`,`site`)
 	) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 	
-	INSERT INTO `".DB_PREFIX."options` (`option`, `value`, `site`) VALUES
+	INSERT INTO `".DB_PREFIX."options` (`option_key`, `option_value`, `site`) VALUES
 	('default_controller', 'page', 'default'),
 	('base', '".$base."', 'default'),
 	('theme', 'default', 'default'),
