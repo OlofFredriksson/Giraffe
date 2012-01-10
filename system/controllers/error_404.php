@@ -9,6 +9,8 @@ class error_404 extends Controller {
 		$file_name = SITE_PATH."/themes/".get_siteInfo("theme")."/404.php";
 		if (file_exists($file_name)) {
 			$data["site_title"] = "404";
+			$data["meta_description"] = "";
+			$data["meta_keywords"] = "";
 			$this->load->view('404',$data);
 		} else {
 			echo "404 - File not found";

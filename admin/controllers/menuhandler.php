@@ -1,7 +1,7 @@
 <?php
 class Menuhandler extends Controller {
 	private $giraffe;
-
+	private $data;
 	public function __construct() {
 		parent::__construct();
 		$this->giraffe = Giraffe::Instance();
@@ -9,12 +9,12 @@ class Menuhandler extends Controller {
 		
 		// We are pretty doomed if user changes the default site name
 		$this->admin->set_site_name("default");
+		$this->data["site_title"] = "Menu handler";
 	}
 	
 	public function index() {
-		$data["list"] = $this->admin->get_menu_table();
-		$data["site_title"] = "Menu handler";
-		$data["site_config"] = $this->admin->config;
+		$this->data["list"] = $this->admin->get_menu_table();
+		$this->data["site_config"] = $this->admin->config;
 		$url = get_siteinfo("theme_url");
 		$data["header_inner"] = <<<EOD
 		<script type="text/javascript" src="$url/includes/jquery.tablesorter.min.js"></script> 
@@ -25,7 +25,7 @@ class Menuhandler extends Controller {
 			); 
 		</script>
 EOD;
-		$this->load->view('menu_handler',$data);
+		$this->load->view('menu_handler',$this->data);
 	}
 	
 	public function create() {
@@ -44,9 +44,9 @@ EOD;
 			$this->admin->update_link($_POST["id"],$_POST["site"],$_POST["title"],$_POST["url"],$_POST["anchor"],$_POST["menu_group"],$_POST["menu_priority"]);
 			$this->giraffe->request_handler->forwardTo("menuhandler/edit/".$_POST["id"]);
 		}
-		$data["site_title"] = "Edit link";
-		$data["link"] = $this->admin->get_link_with_id($id);
-		$this->load->view('menu_handler_edit',$data);
+		$this->data["site_title"] = "Edit link";
+		$this->data["link"] = $this->admin->get_link_with_id($id);
+		$this->load->view('menu_handler_edit',$this->data);
 	}
 }
 ?>

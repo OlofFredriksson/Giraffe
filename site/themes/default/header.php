@@ -5,6 +5,8 @@
 		<link href="<?php the_siteInfo("stylesheet_url"); ?>" rel="stylesheet" type="text/css">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title><?php echo $site_title; ?></title>
+		<meta name="description" content="<?php echo $meta_description; ?>" />
+<meta name="keywords" content="<?php echo $meta_keywords; ?>" />
 	</head>
 	<body>
 		<div id="wrapper">

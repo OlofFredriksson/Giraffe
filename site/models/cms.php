@@ -18,6 +18,8 @@ class Cms {
 		$post["content"] = $row->content;
 		$post["id"] = $row->id;
 		$post["date"] = $row->date;
+		$post["meta_description"] = $row->meta_description;
+		$post["meta_keywords"] = $row->meta_keywords;
 		return $post;
 	}
 	

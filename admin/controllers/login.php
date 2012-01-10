@@ -2,10 +2,13 @@
 class login extends Controller {
 
 	public $giraffe;
+	private $data = array();
 	function __construct() {
 		parent::__construct();
 		global $giraffe;
 		$this->giraffe = $giraffe;
+		$this->data["site_title"] = "Login - Giraffe MVC";
+		$this->data["info_bar"] = "";
 	}
 	
 	public function index() {
@@ -17,21 +20,17 @@ class login extends Controller {
 				$this->giraffe->request_handler->forwardTo("login/error");
 			}
 		}
-		$data["site_title"] = "Login - Giraffe MVC";
-		$data["info_bar"] = "";
-		$this->load->view('login',$data);
+		$this->load->view('login',$this->data);
 	}
 	
 	public function error($type = "") {
-		$data["site_title"] = "Login - Giraffe MVC";
-		$data["info_bar"] = '<div class="alert-message error"><p><strong>Oh snap!</strong> Wrong password or/and password</p></div>';
-		$this->load->view('login',$data);
+		$this->data["info_bar"] = '<div class="alert-message error"><p><strong>Oh snap!</strong> Wrong password or password</p></div>';
+		$this->load->view('login',$this->data);
 	}
 	
 	public function success() {
-		$data["site_title"] = "Login - Giraffe MVC";
-		$data["info_bar"] = '<div class="alert-message success"><p><strong>Welcome '.$_SESSION["auth_username"].'</strong> You successfully logged in.</p></div>';
-		$this->load->view('login',$data);
+		$this->data["info_bar"] = '<div class="alert-message success"><p><strong>Welcome '.$_SESSION["auth_username"].'</strong> You successfully logged in.</p></div>';
+		$this->load->view('login',$this->data);
 	}
 	public function logout() {
 		$this->giraffe->auth->logout();

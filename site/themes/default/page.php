@@ -14,4 +14,4 @@ else {
 	echo "Homepage";
 }
 get_footer();
-?>
+?> 
