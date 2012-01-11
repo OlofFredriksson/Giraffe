@@ -189,7 +189,7 @@ if(isset($_POST["url"])) {
 	<h4>Site info</h4>
 	<strong>Warning: Case sensitive</strong><br />
 	<input type="text" value="<?php echo get_domain(); ?>" name="url" /> Url (<strong>Dont add a slash '/' at the end</strong>) For example: http://domain.com or http://www.domain.com/subpath<br />
-	<input type="text" value="<?php echo get_base(); ?>" name="base" /> Base - (Only if you put your site under domain.com/path/subpath/, base is 'path/subpath/' If not empty, end with a slash!<br />
+	<input type="text" value="<?php echo get_base(); ?>" name="base" /> Base - (Only if you put your site under domain.com/path/subpath/, base is 'path/subpath/' If not empty, end with a slash! If you still dont understand this, look on the exampltes at the end of this page<br />
 	<input type="text" name="title" /> Site title <br />
 	<input type="text" name="sub_title" /> sub_title <br />
 	
@@ -209,5 +209,18 @@ if(isset($_POST["url"])) {
 	}
 	?>
 </form>
+<h4>Examples</h4>
+<p>
+	Url: http://domain.com <br />
+	Base: (empty) <br />
+</p>
+<p>
+	Url: http://domain.com/subpath <br />
+	Base: subpath/ <br />
+</p>
+<p>
+	Url: http://www.student.bth.se/~akr00/Giraffe <br />
+	Base: 	~akr00/Giraffe/ <br />
+</p>
 </body>
 </html>
