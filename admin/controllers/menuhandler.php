@@ -45,7 +45,8 @@ EOD;
 			$this->giraffe->request_handler->forwardTo("menuhandler/edit/".$_POST["id"]);
 		}
 		$this->data["site_title"] = "Edit link";
-		$this->data["link"] = $this->admin->get_link_with_id($id);
+		$this->data["links"] = $this->admin->get_link_with_id($id);
+		$this->data["link"] = $this->data["links"][0]; // Just get the first row 
 		$this->load->view('menu_handler_edit',$this->data);
 	}
 }

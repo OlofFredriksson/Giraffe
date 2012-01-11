@@ -1,5 +1,5 @@
 <?php
-class Admin {
+class Admin extends Model{
 	private $db;
 	private $site_name;
 	public $config;
@@ -72,14 +72,8 @@ class Admin {
 		if(!$result->num_rows == 1) {
 			throw new Exception('Link with id '.$id.' is not found');
 		}
-		$row = $result->fetch_object();
-		$link["id"] = $row->id;
-		$link["site"] = $row->site;
-		$link["title"] = $row->title;
-		$link["url"] = $row->url;
-		$link["anchor"] = $row->anchor;
-		$link["menu_group"] = $row->menu_group;
-		$link["menu_priority"] = $row->menu_priority;
+		
+		$link = $this->get_array($result);
 		return $link;
 	}
 	
