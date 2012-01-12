@@ -17,7 +17,7 @@ function get_sidebar() {
 
 function get_file($file) {
 	global $giraffe;
-	$giraffe->getController()->load->view($region);
+	$giraffe->getController()->load->view($file);
 }
 
 function get_regions($name = "") {
