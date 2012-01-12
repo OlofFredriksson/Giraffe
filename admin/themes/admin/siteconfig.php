@@ -1,5 +1,7 @@
 <?php
 get_header();
+$url = get_siteInfo("url");
+global $giraffe;
 ?>
 <div class="container-fluid">
 	<?php get_sidebar(); ?>
@@ -7,7 +9,7 @@ get_header();
 	<div class="row">
 		<div class="span16">
 			<h2>Site configuration</h2>
-			<form method="post" action="/admin/siteconfig">
+			<form method="post" action="<?php echo $giraffe->request_handler->site_url("siteconfig"); ?>">
 				<div class="clearfix">
 					<div class="input-prepend">
 						<span class="add-on">Title</span>
