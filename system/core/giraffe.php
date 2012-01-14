@@ -66,28 +66,44 @@ class Giraffe {
 			$uri = substr($uri, strlen($base));
 		}
 		
-		// Remove duplicate content if prefix or suffix not is empty
-		if(!empty($uri) && $uri == $this->config["url_prefix"].$this->config["url_suffix"]) {
-			$this->request_handler->forwardTo($this->config["url"],301);
+		// First of all, we check if it's a route with this uri to another page. In this MVC, routes got higher priority and we ignore the prefix and suffix test. If we find a match here we go directly to phase 2.
+		if($route = $this->get_route($uri)) {
+			// If the route is external, go to that page
+			if ($route->external == 1) {
+				header("Location: ".$route->route_to);
+				exit;
+			}
+			// Or run the templateEngine again with the new uri
+			else {
+				$this->uri = $route->route_to;
+			}
+		} else {
+			// Remove duplicate content if prefix or suffix not is empty
+			if(!empty($uri) && $uri == $this->config["url_prefix"].$this->config["url_suffix"]) {
+				$this->request_handler->forwardTo($this->config["url"],301);
+			}
+			
+			// If uri is same as default controller, send back user to prevent duplicate content
+			if($uri == $this->config["url_prefix"].$this->config["default_controller"].$this->config["url_suffix"]) {
+				$this->request_handler->forwardTo($this->config["url"],301);
+			}
+			// The last check, if the uri validates the regex pattern based on prefix and suffix
+			$pattern = "/^(".preg_quote($this->config["url_prefix"],'/')."[0-9a-z\-\_\/]*".preg_quote($this->config["url_suffix"],'/').")$/i";
+			if (!empty($uri) && !preg_match($pattern, $uri)) {
+				$this->debug["frontcontroller"] = "Wrong format on url";
+				$this->fourofour();
+			}
+			
+			// Remove prefix from URI
+			$uri = str_replace($this->config["url_prefix"],"",$uri);
+			
+			// Remove suffix from URI
+			$uri = str_replace($this->config["url_suffix"],"",$uri);
+			$this->uri = $uri;
+			
 		}
-		
-		// If uri is same as default controller, send back user to prevent duplicate content
-		if($uri == $this->config["url_prefix"].$this->config["default_controller"].$this->config["url_suffix"]) {
-			$this->request_handler->forwardTo($this->config["url"],301);
-		}
-		// The last check, if the uri validates the regex pattern based on prefix and suffix
-		$pattern = "/^(".preg_quote($this->config["url_prefix"],'/')."[0-9a-z\-\_\/]*".preg_quote($this->config["url_suffix"],'/').")$/i";
-		if (!empty($uri) && !preg_match($pattern, $uri)) {
-			$this->debug["frontcontroller"] = "Wrong format on url";
-			$this->fourofour();
-		}
-		
-		// Remove prefix from URI
-		$uri = str_replace($this->config["url_prefix"],"",$uri);
-		
-		// Remove suffix from URI
-		$uri = str_replace($this->config["url_suffix"],"",$uri);
-		$this->uri = $uri;
+		//Creates an array from the rest of the URL
+		$this->uri_array = preg_split('[\\/]', $this->uri, -1, PREG_SPLIT_NO_EMPTY);
 	
 	}
 	// Phase 2, it's time to render the page based on the uri, this function also handle can urls
@@ -97,33 +113,20 @@ class Giraffe {
 			$this->uri = $passed_uri;
 		}
 		$this->debug["actual_uri"] = $this->uri;
-		// In this mvc, routes got higher priority and we start to search if it exist a can url for this uri
-		if($route = $this->get_route($this->uri)) {
-			// If the route is external, go to that page
-			if ($route->external == 1) {
-				header("Location: ".$route->route_to);
-				exit;
-			}
-			// Or run the templateEngine again with the new uri
-			else {
-				$this->engine($route->route_to);
-			}
+		
+		
+		// If the load application throws an error, display the 404 page
+		
+		// Login controll, if the config var 'auth' refers to a controller, we force user to se that controller instead if the wanted
+		if(!empty($this->config["auth"]) && !$this->auth->isLoggedIn()) {
+			$this->uri_array[0] = $this->config["auth"];
+			$this->debug["login_status"] = "Not logged in";
 		}
-		else {
-			//creates an array from the rest of the URL
-			$this->uri_array = preg_split('[\\/]', $this->uri, -1, PREG_SPLIT_NO_EMPTY);
-			// If the load application throws an error, display the 404 page
-			// Login controll, if the config var 'auth' refers to a controller, we force user to se that controller instead if the wanted
-			if(!empty($this->config["auth"]) && !$this->auth->isLoggedIn()) {
-				$this->uri_array[0] = $this->config["auth"];
-				$this->debug["login_status"] = "Not logged in";
-			}
-			try {
-				$this->loadApplication($this->uri_array);
-			} catch (Exception $e) {
-				$this->debug["templateEngine"] = $e->getMessage();
-				$this->fourofour();
-			}
+		try {
+			$this->loadApplication($this->uri_array);
+		} catch (Exception $e) {
+			$this->debug["templateEngine"] = $e->getMessage();
+			$this->fourofour();
 		}
 	}
 	public function getConfig() {
